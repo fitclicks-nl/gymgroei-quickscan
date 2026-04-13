@@ -23,17 +23,11 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             <p>In de praktijk verliezen ze vooral resultaat in wat er al binnenkomt.</p>
           </div>
 
-          <div className="relative mt-6 overflow-hidden rounded-3xl border border-[#EB7F4B]/25 bg-[#EB7F4B]/8 p-5 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-            <div
-              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full blur-3xl"
-              style={{ background: "rgba(235,127,75,0.18)" }}
-            />
-            <p className="text-sm font-medium text-[#EB7F4B]">
-              Dit voel je nu waarschijnlijk in de praktijk
-            </p>
-            <p className="mt-3 text-base leading-7 text-white/85 sm:text-lg">
-              Als je dit niet oplost, blijf je afhankelijk van losse acties,
-              toeval en onnodige ruis in je marketing.
+          <div className="mt-6 max-w-2xl rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4">
+            <p className="text-base leading-7 text-white/80">
+              Als je dit niet oplost, blijf je afhankelijk van{" "}
+              <span className="font-medium text-white">losse acties</span>, toeval en
+              ruis in je marketing.
             </p>
           </div>
 
