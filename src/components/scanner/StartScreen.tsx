@@ -1,0 +1,171 @@
+import { useState } from "react";
+import { Shield, Clock3, CircleCheck } from "lucide-react";
+import { trackEvent } from "@/lib/utils";
+
+type StartScreenProps = {
+  onStart: (name: string, mail: string) => void;
+};
+
+const StartScreen = ({ onStart }: StartScreenProps) => {
+  const [gymName, setGymName] = useState("");
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const isValidEmail = (value: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  };
+
+ const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  setSubmitted(true);
+
+  if (!gymName.trim() || !isValidEmail(email)) return;
+
+  // 🔥 TRACKING
+  trackEvent("scanner_start", {
+    gym_name: gymName,
+  });
+
+  onStart(gymName.trim(), email.trim());
+};
+
+  const gymNameError = submitted && !gymName.trim();
+  const emailError = submitted && !isValidEmail(email);
+
+  return (
+    <div className="relative min-h-screen overflow-hidden text-white">
+      <style>
+        {`
+          @keyframes fitclicksGlowPulse {
+            0% {
+              transform: scale(0.98);
+              opacity: 0.45;
+              box-shadow: 0 0 0 rgba(235,127,75,0.00);
+            }
+            50% {
+              transform: scale(1.03);
+              opacity: 0.95;
+              box-shadow: 0 0 40px rgba(235,127,75,0.45);
+            }
+            100% {
+              transform: scale(0.98);
+              opacity: 0.45;
+              box-shadow: 0 0 0 rgba(235,127,75,0.00);
+            }
+          }
+        `}
+      </style>
+
+      <div className="mx-auto flex min-h-screen max-w-7xl items-center justify-center px-6 pt-28 pb-16 sm:pt-32 sm:pb-16">
+        <div className="w-full max-w-xl text-center">
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#EB7F4B]">
+            Gratis groeiscan voor sportscholen
+          </p>
+
+          <h1 className="text-4xl font-bold leading-[1.05] tracking-[-0.03em] sm:text-5xl md:text-6xl">
+            Ontdek waar jouw gym{" "}
+            <span className="text-[#EB7F4B]">nu groei laat liggen</span>
+          </h1>
+
+          <p className="mx-auto mt-5 max-w-lg text-base leading-7 text-white/65 sm:text-lg">
+            Krijg binnen 1 minuut inzicht in waar jouw gym nu groei laat liggen en welke kansen er blijven liggen.
+          </p>
+
+          <form
+            onSubmit={handleSubmit}
+            className="mx-auto mt-10 rounded-3xl border border-white/8 bg-white/[0.03] p-4 shadow-[0_10px_50px_rgba(0,0,0,0.35)] backdrop-blur-md sm:p-5"
+          >
+            <div className="space-y-4 text-left">
+              <div>
+                <input
+                  type="text"
+                  value={gymName}
+                  onChange={(e) => setGymName(e.target.value)}
+                  placeholder="Naam van je gym"
+                  className={`h-14 w-full rounded-2xl border bg-white/[0.04] px-4 text-base text-white outline-none transition placeholder:text-white/35 ${
+                    gymNameError
+                      ? "border-[#EB7F4B] ring-1 ring-[#EB7F4B]/40"
+                      : "border-white/8 focus:border-[#EB7F4B]/60 focus:ring-1 focus:ring-[#EB7F4B]/30"
+                  }`}
+                />
+                {gymNameError && (
+                  <p className="mt-2 text-sm text-[#EB7F4B]">
+                    Vul de naam van je gym in.
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="E-mailadres"
+                  className={`h-14 w-full rounded-2xl border bg-white/[0.04] px-4 text-base text-white outline-none transition placeholder:text-white/35 ${
+                    emailError
+                      ? "border-[#EB7F4B] ring-1 ring-[#EB7F4B]/40"
+                      : "border-white/8 focus:border-[#EB7F4B]/60 focus:ring-1 focus:ring-[#EB7F4B]/30"
+                  }`}
+                />
+                {emailError && (
+                  <p className="mt-2 text-sm text-[#EB7F4B]">
+                    Vul een geldig e-mailadres in.
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className="group relative mt-2 inline-flex h-14 w-full items-center justify-center overflow-visible rounded-2xl px-6 text-base font-semibold text-white transition duration-300 hover:scale-[1.01]"
+              >
+                <span
+                  className="absolute -inset-1 rounded-[1.1rem]"
+                  style={{
+                    background: "rgba(235,127,75,0.45)",
+                    filter: "blur(18px)",
+                    animation: "fitclicksGlowPulse 2.2s ease-in-out infinite",
+                    zIndex: 0,
+                  }}
+                />
+                <span
+                  className="absolute inset-0 rounded-2xl"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
+                    zIndex: 1,
+                  }}
+                />
+                <span className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 transition group-hover:opacity-100 z-[2]" />
+                <span className="relative z-10">Start gratis scan</span>
+              </button>
+            </div>
+
+            <p className="mt-4 text-center text-sm text-white/50">
+              Je ontvangt je groeiplan direct na de scan.
+            </p>
+            <p className="mt-2 text-center text-xs text-white/40">
+  We gebruiken je gegevens alleen om je groeiplan te sturen. Geen spam.
+</p>
+
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-white/8 pt-5 text-sm text-white/55">
+              <div className="flex items-center gap-2">
+                <Shield size={16} className="text-white/55" />
+                <span>100% gratis</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock3 size={16} className="text-white/55" />
+                <span>Binnen 60 seconden</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CircleCheck size={16} className="text-white/55" />
+                <span>Geen verplichtingen</span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default StartScreen;
