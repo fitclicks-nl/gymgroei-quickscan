@@ -21,7 +21,6 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
     <div className="relative min-h-screen overflow-hidden text-white">
       <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-6 pt-28 pb-16 sm:pt-32 sm:pb-16">
         <div className="w-full max-w-3xl">
-          {/* Header */}
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#EB7F4B]">
             Jouw Quickscan resultaat
           </p>
@@ -35,7 +34,6 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             <p>In de praktijk verliezen ze vooral resultaat in wat er al binnenkomt.</p>
           </div>
 
-          {/* Pain block */}
           <div className="mt-6 max-w-2xl rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4">
             <p className="text-base leading-7 text-white/80">
               Als je dit niet oplost, blijf je afhankelijk van{" "}
@@ -44,8 +42,7 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             </p>
           </div>
 
-          {/* AANDACHTSPUNT MET FADE */}
-          <div className="relative mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)] overflow-hidden">
+          <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
             <p className="text-sm font-medium text-[#EB7F4B]">
               Dit is waar je nu structureel winst laat liggen
             </p>
@@ -54,9 +51,9 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
               {priorityTitle}
             </h2>
 
-            <div className="relative mt-4">
-              <div className="max-h-[220px] overflow-hidden">
-                <p className="leading-7 text-white/75">{summary}</p>
+            {isUnlocked ? (
+              <>
+                <p className="mt-4 leading-7 text-white/75">{summary}</p>
 
                 <p className="mt-4 leading-7 text-white/65">
                   Daardoor laat je nu waarschijnlijk structureel nieuwe leden liggen,
@@ -66,18 +63,36 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                 <p className="mt-4 leading-7 text-white/65">
                   Dit is precies waarom groei nu minder voorspelbaar voelt dan nodig is.
                 </p>
-              </div>
+              </>
+            ) : (
+              <div className="relative mt-4">
+                <div
+                  className="overflow-hidden"
+                  style={{
+                    maxHeight: "190px",
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",
+                    maskImage:
+                      "linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",
+                  }}
+                >
+                  <p className="leading-7 text-white/75">{summary}</p>
 
-              {/* BETERE FADE */}
-              {!isUnlocked && (
-                <div className="pointer-events-none absolute bottom-0 left-0 h-40 w-full bg-gradient-to-t from-[#0B0F1A] via-[#0B0F1A]/80 to-transparent" />
-              )}
-            </div>
+                  <p className="mt-4 leading-7 text-white/65">
+                    Daardoor laat je nu waarschijnlijk structureel nieuwe leden liggen,
+                    zonder dat je dat elke dag direct doorhebt.
+                  </p>
+
+                  <p className="mt-4 leading-7 text-white/65">
+                    Dit is precies waarom groei nu minder voorspelbaar voelt dan nodig is.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* PAYWALL */}
           {!isUnlocked && (
-            <div className="mt-[-30px] pt-8 border-t border-white/5 rounded-3xl border border-[#EB7F4B]/20 bg-[linear-gradient(180deg,rgba(235,127,75,0.08),rgba(235,127,75,0.03))] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-sm">
+            <div className="mt-6 rounded-3xl border border-[#EB7F4B]/20 bg-[linear-gradient(180deg,rgba(235,127,75,0.08),rgba(235,127,75,0.03))] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)]">
               <p className="text-sm font-medium text-[#EB7F4B]">
                 Ontgrendel jouw volledige Quickscan
               </p>
@@ -101,10 +116,9 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                 </div>
               </div>
 
-              {/* PRIJS + CTA */}
-              <div className="mt-6 text-center">
+              <div className="mt-6 flex flex-col items-center justify-center">
                 <p className="text-sm text-white/45">Eenmalig</p>
-                <p className="text-3xl font-bold text-white">€49</p>
+                <p className="mt-1 text-3xl font-bold text-white">€49</p>
 
                 <button
                   type="button"
@@ -113,9 +127,9 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                   <span
                     className="absolute -inset-1 rounded-[1.2rem]"
                     style={{
-                      background: "rgba(235,127,75,0.35)",
-                      filter: "blur(18px)",
-                      opacity: 0.7,
+                      background: "rgba(235,127,75,0.25)",
+                      filter: "blur(16px)",
+                      opacity: 0.65,
                     }}
                   />
                   <span
@@ -132,7 +146,6 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             </div>
           )}
 
-          {/* UNLOCKED CONTENT */}
           {isUnlocked && (
             <>
               <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6">
@@ -150,27 +163,80 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                         {index + 1}. {action.title}
                       </h3>
 
-                      <p className="mt-3 text-sm text-white/70">
+                      <p className="mt-3 text-sm leading-6 text-white/70">
                         <strong>Dit ga je concreet doen:</strong> {action.what}
                       </p>
 
-                      <p className="mt-3 text-sm text-white/60">
+                      <p className="mt-3 text-sm leading-6 text-white/60">
                         <strong>Waarom dit belangrijk is:</strong> {action.why}
                       </p>
 
-                      <p className="mt-3 text-sm text-white/60">
+                      <p className="mt-3 text-sm leading-6 text-white/60">
                         <strong>Wat dit oplevert:</strong> {action.result}
                       </p>
                     </div>
                   ))}
                 </div>
               </div>
+
+              <div className="mt-8 rounded-3xl border border-red-500/20 bg-red-500/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+                <h3 className="text-lg font-semibold text-red-400">
+                  Wat je nu beter niet kunt doen
+                </h3>
+
+                <p className="mt-3 leading-7 text-white/70">{avoid}</p>
+              </div>
+
+              <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+                <h3 className="text-xl font-semibold">Bekijk je scores per onderdeel</h3>
+
+                <div className="mt-5 space-y-4">
+                  {Object.entries(scores).map(([domain, score]) => {
+                    const isLowest = domain === lowestDomain;
+
+                    return (
+                      <div key={domain}>
+                        <div className="mb-2 flex items-center justify-between text-sm">
+                          <span
+                            className={
+                              isLowest ? "font-medium text-[#EB7F4B]" : "text-white/80"
+                            }
+                          >
+                            {domain}
+                          </span>
+                          <span
+                            className={
+                              isLowest ? "font-medium text-[#EB7F4B]" : "text-white/55"
+                            }
+                          >
+                            {score}/5
+                          </span>
+                        </div>
+
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+                          <div
+                            className={`h-full rounded-full ${
+                              isLowest ? "bg-[#EB7F4B]" : "bg-white/35"
+                            }`}
+                            style={{ width: `${(Number(score) / 5) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <p className="mt-5 text-sm leading-6 text-white/55">
+                  Je laagste score ligt bij{" "}
+                  <span className="font-medium text-white">{lowestDomain}</span>. Daar
+                  zit op dit moment je grootste aandachtspunt.
+                </p>
+              </div>
             </>
           )}
         </div>
       </div>
 
-      {/* DEBUG BUTTON */}
       <button
         onClick={() => setIsUnlocked(!isUnlocked)}
         className="fixed bottom-4 right-4 z-50 rounded-xl bg-white/5 px-4 py-2 text-xs text-white/60 hover:bg-white/10 hover:text-white"
