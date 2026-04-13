@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 import StartScreen from "./StartScreen";
 import QuestionScreen from "./QuestionScreen";
 import LoadingScreen from "./LoadingScreen";
@@ -16,7 +16,6 @@ const GymGroeiplanScanner = () => {
   const [phase, setPhase] = useState<Phase>("start");
   const [gymName, setGymName] = useState("");
   const [email, setEmail] = useState("");
-
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<any>(null);
@@ -30,8 +29,9 @@ const GymGroeiplanScanner = () => {
     setPhase("questions");
   };
 
-  const handleAnswer = (value: number) => {
-    const newAnswers = [...answers, value];
+  const handleNextAnswer = (value: number) => {
+    const newAnswers = [...answers];
+    newAnswers[questionIndex] = value;
     setAnswers(newAnswers);
 
     if (questionIndex < quickscanQuestions.length - 1) {
@@ -42,6 +42,11 @@ const GymGroeiplanScanner = () => {
     const generated = generateQuickscanResult(newAnswers);
     setResult(generated);
     setPhase("loading");
+  };
+
+  const handleBack = () => {
+    if (questionIndex === 0) return;
+    setQuestionIndex((prev) => prev - 1);
   };
 
   const handleLoadingDone = useCallback(() => {
@@ -59,7 +64,9 @@ const GymGroeiplanScanner = () => {
             totalQuestions={quickscanQuestions.length}
             question={quickscanQuestions[questionIndex].statement}
             options={likertOptions}
-            onSelect={handleAnswer}
+            value={answers[questionIndex]}
+            onBack={handleBack}
+            onNext={handleNextAnswer}
           />
         )}
 
