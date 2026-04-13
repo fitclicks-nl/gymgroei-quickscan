@@ -62,8 +62,13 @@ const QuestionScreen = ({
             </h2>
 
             <p className="mt-4 text-sm leading-6 text-white/55 sm:text-base">
-              Kies in hoeverre deze stelling op jouw gym van toepassing is.
+              Geef aan in hoeverre deze stelling op jouw gym van toepassing is.
             </p>
+
+            <div className="mt-3 rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3 text-sm leading-6 text-white/55">
+              <span className="font-medium text-white/80">Scoren doe je zo:</span>{" "}
+              1 = helemaal niet van toepassing, 3 = deels van toepassing, 5 = helemaal van toepassing.
+            </div>
 
             <div className="mt-8 space-y-3">
               {options.map((option) => (
@@ -84,14 +89,6 @@ const QuestionScreen = ({
                   </div>
                 </button>
               ))}
-            </div>
-
-            <div className="mt-8 grid grid-cols-5 gap-2 text-center text-xs text-white/35 sm:text-sm">
-              <div>Helemaal oneens</div>
-              <div />
-              <div>Neutraal</div>
-              <div />
-              <div>Helemaal eens</div>
             </div>
           </div>
         </div>
