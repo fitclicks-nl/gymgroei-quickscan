@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 type ResultScreenProps = {
   gymName: string;
@@ -16,13 +16,6 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
   }, []);
 
   const { scores, lowestDomain, summary, priorityTitle, actions, avoid } = result;
-
-  const teaserText = useMemo(() => {
-    const maxLength = 260;
-    if (!summary) return "";
-    if (summary.length <= maxLength) return summary;
-    return `${summary.slice(0, maxLength).trim()}...`;
-  }, [summary]);
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
@@ -60,10 +53,32 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                   {priorityTitle}
                 </h2>
 
-                <p className="mt-4 leading-7 text-white/75">{teaserText}</p>
+                <div className="relative mt-4">
+                  <div
+                    className="overflow-hidden"
+                    style={{
+                      maxHeight: "210px",
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
+                      maskImage:
+                        "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
+                    }}
+                  >
+                    <p className="leading-7 text-white/75">{summary}</p>
+
+                    <p className="mt-4 leading-7 text-white/65">
+                      Daardoor laat je nu waarschijnlijk structureel nieuwe leden liggen,
+                      zonder dat je dat elke dag direct doorhebt.
+                    </p>
+
+                    <p className="mt-4 leading-7 text-white/65">
+                      Dit is precies waarom groei nu minder voorspelbaar voelt dan nodig is.
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-6 rounded-3xl border border-[#EB7F4B]/20 bg-[linear-gradient(180deg,rgba(235,127,75,0.08),rgba(235,127,75,0.03))] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)]">
+              <div className="mt-5 rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-[0_16px_50px_rgba(0,0,0,0.22)]">
                 <p className="text-sm font-medium text-[#EB7F4B]">
                   Ontgrendel jouw volledige Quickscan
                 </p>
@@ -72,12 +87,12 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                   Zie precies wat je de komende 30 dagen moet doen
                 </h3>
 
-                <p className="mt-4 leading-7 text-white/70">
+                <p className="mt-4 leading-7 text-white/68">
                   Je volledige Quickscan laat niet alleen zien waar het schuurt,
                   maar vooral wat je als eerste moet aanpakken.
                 </p>
 
-                <div className="mt-5 space-y-3 text-white/75">
+                <div className="mt-5 space-y-3 text-white/74">
                   <div className="flex items-start gap-3">
                     <span className="mt-1 text-[#EB7F4B]">•</span>
                     <span>Je 3 belangrijkste acties in de juiste volgorde</span>
@@ -92,7 +107,7 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                   </div>
                 </div>
 
-                <div className="mt-6 flex flex-col items-center justify-center">
+                <div className="mt-6 rounded-2xl border border-white/8 bg-black/10 px-4 py-4 text-center">
                   <p className="text-sm text-white/45">Eenmalig</p>
                   <p className="mt-1 text-3xl font-bold text-white">€49</p>
 
@@ -103,9 +118,9 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                     <span
                       className="absolute -inset-1 rounded-[1.2rem]"
                       style={{
-                        background: "rgba(235,127,75,0.25)",
+                        background: "rgba(235,127,75,0.22)",
                         filter: "blur(16px)",
-                        opacity: 0.65,
+                        opacity: 0.6,
                       }}
                     />
                     <span
@@ -120,8 +135,9 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                   </button>
                 </div>
 
-                <p className="mt-4 text-center text-sm text-white/40">
-                  Voor testen kun je tijdelijk <span className="text-white/60">?unlock=true</span> achter de URL zetten
+                <p className="mt-4 text-center text-sm text-white/38">
+                  Voor testen kun je tijdelijk <span className="text-white/55">?unlock=true</span>{" "}
+                  achter de URL zetten
                 </p>
               </div>
             </>
