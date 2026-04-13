@@ -14,19 +14,77 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             Jouw Quickscan resultaat
           </p>
 
-          <h1 className="text-3xl font-bold leading-[1.1] tracking-[-0.03em] sm:text-4xl md:text-5xl">
+          <h1 className="text-3xl font-bold leading-[1.08] tracking-[-0.03em] sm:text-4xl md:text-5xl">
             {gymName}, hier moet je als eerste naar kijken
           </h1>
 
-          <p className="mt-4 text-base leading-7 text-white/65">
-            Op basis van jouw antwoorden komt één duidelijk aandachtspunt naar voren
-            waar je op dit moment de meeste winst kunt behalen.
+          <p className="mt-4 max-w-2xl text-base leading-7 text-white/65">
+            De meeste gyms denken dat ze meer leads nodig hebben. In jouw geval zit
+            de grootste winst vooral ergens anders.
           </p>
 
-          <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-            <h2 className="mb-5 text-xl font-semibold">Overzicht per domein</h2>
+          <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+            <p className="text-sm font-medium text-[#EB7F4B]">
+              Dit is waar je nu het meeste resultaat laat liggen
+            </p>
 
-            <div className="space-y-4">
+            <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
+              {priorityTitle}
+            </h2>
+
+            <p className="mt-4 leading-7 text-white/75">{summary}</p>
+          </div>
+
+          <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+            <h2 className="text-2xl font-semibold tracking-[-0.02em]">
+              Dit ga je de komende 30 dagen doen
+            </h2>
+
+            <div className="mt-6 space-y-5">
+              {actions.map((action: any, index: number) => (
+                <div
+                  key={index}
+                  className="rounded-2xl border border-white/8 bg-white/[0.02] p-5"
+                >
+                  <h3 className="text-lg font-semibold">
+                    {index + 1}. {action.title}
+                  </h3>
+
+                  <p className="mt-3 text-sm leading-6 text-white/70">
+                    <span className="font-medium text-white">Dit ga je doen:</span>{" "}
+                    {action.what}
+                  </p>
+
+                  <p className="mt-3 text-sm leading-6 text-white/60">
+                    <span className="font-medium text-white">
+                      Waarom dit belangrijk is:
+                    </span>{" "}
+                    {action.why}
+                  </p>
+
+                  <p className="mt-3 text-sm leading-6 text-white/60">
+                    <span className="font-medium text-white">
+                      Wat dit oplevert:
+                    </span>{" "}
+                    {action.result}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-3xl border border-red-500/20 bg-red-500/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+            <h3 className="text-lg font-semibold text-red-400">
+              Wat je nu beter niet kunt doen
+            </h3>
+
+            <p className="mt-3 leading-7 text-white/70">{avoid}</p>
+          </div>
+
+          <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+            <h3 className="text-xl font-semibold">Bekijk je scores per onderdeel</h3>
+
+            <div className="mt-5 space-y-4">
               {Object.entries(scores).map(([domain, score]) => {
                 const isLowest = domain === lowestDomain;
 
@@ -63,65 +121,16 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             </div>
 
             <p className="mt-5 text-sm leading-6 text-white/55">
-              Je laagste score ligt bij <span className="font-medium text-white">{lowestDomain}</span>.
-              Daar zit op dit moment jouw grootste aandachtspunt.
+              Je laagste score ligt bij{" "}
+              <span className="font-medium text-white">{lowestDomain}</span>. Daar
+              zit op dit moment je grootste aandachtspunt.
             </p>
-          </div>
-
-          <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-            <p className="text-sm font-medium text-[#EB7F4B]">
-              Belangrijkste conclusie
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
-              {priorityTitle}
-            </h2>
-            <p className="mt-4 leading-7 text-white/75">{summary}</p>
-          </div>
-
-          <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-            <h2 className="text-2xl font-semibold tracking-[-0.02em]">
-              Wat je de komende 30 dagen moet doen
-            </h2>
-
-            <div className="mt-6 space-y-5">
-              {actions.map((action: any, index: number) => (
-                <div
-                  key={index}
-                  className="rounded-2xl border border-white/8 bg-white/[0.02] p-5"
-                >
-                  <h3 className="text-lg font-semibold">
-                    {index + 1}. {action.title}
-                  </h3>
-
-                  <p className="mt-3 text-sm leading-6 text-white/70">
-                    <span className="font-medium text-white">Wat je moet doen:</span>{" "}
-                    {action.what}
-                  </p>
-
-                  <p className="mt-3 text-sm leading-6 text-white/60">
-                    <span className="font-medium text-white">Waarom dit belangrijk is:</span>{" "}
-                    {action.why}
-                  </p>
-
-                  <p className="mt-3 text-sm leading-6 text-white/60">
-                    <span className="font-medium text-white">Wat dit oplevert:</span>{" "}
-                    {action.result}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-8 rounded-3xl border border-red-500/20 bg-red-500/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-            <h3 className="text-lg font-semibold text-red-400">
-              Wat je nu beter niet kunt doen
-            </h3>
-            <p className="mt-3 leading-7 text-white/70">{avoid}</p>
           </div>
 
           <div className="mt-10 text-center">
             <p className="mb-4 text-sm text-white/50">
-              Dit is je startpunt. Wil je hier een concreet actieplan van maken?
+              Dit is je startpunt. Wil je hier een concreet actieplan van maken voor
+              jouw gym?
             </p>
 
             <a
@@ -137,7 +146,7 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
               Plan een kennismaking
             </a>
 
-            <p className="mt-4 text-sm text-white/45">
+            <p className="mt-4 text-sm text-white/40">
               Dan kijken we samen hoe je dit vertaalt naar jouw praktijk.
             </p>
           </div>
