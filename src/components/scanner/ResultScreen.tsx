@@ -18,14 +18,14 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             {gymName}, hier laat je nu het meeste resultaat liggen
           </h1>
 
-          <p className="mt-4 max-w-2xl text-base leading-7 text-white/65">
-            De meeste gyms denken dat ze meer leads nodig hebben. In de praktijk
-            zit de grootste winst vaak ergens anders.
-          </p>
+          <div className="mt-4 max-w-2xl space-y-3 text-base leading-7 text-white/65">
+            <p>De meeste gyms denken dat ze meer leads nodig hebben.</p>
+            <p>In de praktijk verliezen ze vooral resultaat in wat er al binnenkomt.</p>
+          </div>
 
-          <div className="mt-3 max-w-2xl rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3 text-sm leading-6 text-white/55">
-            Als je dit niet oplost, blijf je afhankelijk van losse acties, toeval
-            en onnodige ruis in je marketing.
+          <div className="mt-4 max-w-2xl rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3 text-sm leading-6 text-white/55">
+            Als je dit niet oplost, blijf je afhankelijk van losse acties, toeval en
+            onnodige ruis in je marketing.
           </div>
 
           <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
@@ -43,6 +43,10 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
               Daardoor laat je nu waarschijnlijk structureel nieuwe leden liggen,
               zonder dat je dat elke dag direct doorhebt.
             </p>
+
+            <p className="mt-4 leading-7 text-white/65">
+              Dit is precies waarom groei nu minder voorspelbaar voelt dan nodig is.
+            </p>
           </div>
 
           <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
@@ -51,8 +55,7 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             </h2>
 
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
-              Niet alles tegelijk. Dit zijn de eerste stappen die het meeste
-              verschil maken.
+              Niet alles tegelijk. Dit zijn de eerste stappen die het meeste verschil maken.
             </p>
 
             <div className="mt-6 space-y-5">
@@ -66,7 +69,7 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                   </h3>
 
                   <p className="mt-3 text-sm leading-6 text-white/70">
-                    <span className="font-medium text-white">Dit ga je doen:</span>{" "}
+                    <span className="font-medium text-white">Dit ga je concreet doen:</span>{" "}
                     {action.what}
                   </p>
 
@@ -144,7 +147,7 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
 
           <div className="mt-10 text-center">
             <p className="mb-4 text-sm text-white/50">
-              Dit is je startpunt. Wil je dit concreet vertalen naar jouw gym?
+              Dit is je startpunt. Wil je hier concreet mee aan de slag voor jouw gym?
             </p>
 
             <a
@@ -157,12 +160,12 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                   "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
               }}
             >
-              Plan een kennismaking en maak dit concreet
+              Plan een kennismaking en ontdek waar je nu concreet leden laat liggen
             </a>
 
             <p className="mt-4 text-sm text-white/40">
-              Dan kijken we samen waar je nu concreet leden laat liggen en wat je
-              als eerste moet aanscherpen.
+              Dan kijken we samen wat je als eerste moet aanpassen om meer leden uit je
+              huidige instroom te halen.
             </p>
           </div>
         </div>
