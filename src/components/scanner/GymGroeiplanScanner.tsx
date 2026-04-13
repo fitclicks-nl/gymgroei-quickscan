@@ -71,13 +71,117 @@ const GymGroeiplanScanner = () => {
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<GroeiplanResult | null>(null);
 
-  const handleStart = async (name: string, mail: string) => {
+  const handleStart = (name: string, mail: string) => {
     setGymName(name);
     setEmail(mail);
+
     setQuestionIndex(0);
     setAnswers([]);
     setResult(null);
     setPhase("questions");
+  };
+
+  const handleAnswer = (answer: string) => {
+    const newAnswers = [...answers, answer];
+    setAnswers(newAnswers);
+
+    if (questionIndex < questions.length - 1) {
+      setQuestionIndex((prev) => prev + 1);
+      return;
+    }
+
+    const data: ScannerData = {
+      gymName,
+      email,
+      gymType: newAnswers[0],
+      memberCount: newAnswers[1],
+      mainGoal: newAnswers[2],
+      biggestChallenge: newAnswers[3],
+      currentMarketing: newAnswers[4],
+      hasStructure: newAnswers[5],
+      marketingBudget: newAnswers[6],
+    };
+
+    trackEvent("scanner_answers", {
+      gym_name: gymName,
+      gym_type: data.gymType,
+      member_count: data.memberCount,
+      main_goal: data.mainGoal,
+      biggest_challenge: data.biggestChallenge,
+      marketing_type: data.currentMarketing,
+      structure: data.hasStructure,
+      budget: data.marketingBudget,
+    });
+
+    const generatedResult = generateGroeiplan(data);
+    setResult(generatedResult);
+    setPhase("loading");
+  };
+
+  const handleLoadingDone = useCallback(() => {
+    setPhase("result");
+  }, []);
+
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,hsl(232_40%_10%),hsl(230_35%_8%))]">
+      <div className="pointer-events-none fixed inset-0">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.075),rgba(0,0,0,0))]" />
+
+        <div
+          className="absolute top-1/4 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full opacity-20 blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle, hsla(232, 50%, 40%, 0.30), transparent 70%)",
+          }}
+        />
+
+        <div
+          className="absolute bottom-0 left-1/2 h-[400px] w-[400px] -translate-x-1/2 rounded-full opacity-10 blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle, hsla(21, 82%, 57%, 0.30), transparent 70%)",
+          }}
+        />
+      </div>
+
+      <div className="relative z-10">
+        <div className="absolute inset-x-0 top-0 z-30">
+          <div className="mx-auto flex max-w-7xl items-center px-8 pt-6 sm:px-12 sm:pt-8 md:px-16 md:pt-10">
+            <a
+              href="https://fitclicks.nl"
+              className="text-xl leading-none font-semibold tracking-[-0.02em] opacity-95 sm:text-2xl md:text-2xl"
+            >
+              <span className="text-white">fit</span>
+              <span className="text-[#EB7F4B]">clicks</span>
+            </a>
+          </div>
+        </div>
+
+        {phase === "start" && <StartScreen onStart={handleStart} />}
+
+        {phase === "questions" && (
+          <QuestionScreen
+            questionIndex={questionIndex}
+            totalQuestions={questions.length}
+            question={questions[questionIndex].question}
+            options={questions[questionIndex].options}
+            onSelect={handleAnswer}
+          />
+        )}
+
+        {phase === "loading" && (
+          <LoadingScreen gymName={gymName} onDone={handleLoadingDone} />
+        )}
+
+        {phase === "result" && result && (
+          <ResultScreen gymName={gymName} result={result} />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default GymGroeiplanScanner;    setPhase("questions");
   };
 
   const handleAnswer = async (answer: string) => {
