@@ -1,12 +1,17 @@
-import ProgressBar from "./ProgressBar";
+import { trackEvent } from "@/lib/utils";
 
-interface QuestionScreenProps {
+type QuestionOption = {
+  label: string;
+  value: number;
+};
+
+type QuestionScreenProps = {
   questionIndex: number;
   totalQuestions: number;
   question: string;
-  options: string[];
-  onSelect: (answer: string) => void;
-}
+  options: QuestionOption[];
+  onSelect: (value: number) => void;
+};
 
 const QuestionScreen = ({
   questionIndex,
@@ -15,37 +20,37 @@ const QuestionScreen = ({
   options,
   onSelect,
 }: QuestionScreenProps) => {
-  const remaining = totalQuestions - questionIndex;
-  const remainingText =
-    remaining <= 1 ? "Bijna klaar" : `Nog ${remaining} vragen`;
+  const progress = ((questionIndex + 1) / totalQuestions) * 100;
+
+  const handleSelect = (option: QuestionOption) => {
+    trackEvent("quickscan_answer", {
+      question_index: questionIndex + 1,
+      answer_value: option.value,
+      answer_label: option.label,
+    });
+
+    onSelect(option.value);
+  };
 
   return (
-    <div className="flex flex-col items-center min-h-screen px-6 pt-12">
-      <ProgressBar
-        currentStep={questionIndex + 1}
-        totalSteps={totalQuestions}
-        remainingText={remainingText}
-      />
+    <div className="relative min-h-screen overflow-hidden text-white">
+      <div className="mx-auto flex min-h-screen max-w-4xl items-center justify-center px-6 pt-28 pb-16 sm:pt-32 sm:pb-16">
+        <div className="w-full max-w-2xl">
+          <div className="mb-8">
+            <div className="mb-3 flex items-center justify-between text-sm text-white/45">
+              <span>
+                Vraag {questionIndex + 1} van {totalQuestions}
+              </span>
+              <span>{Math.round(progress)}%</span>
+            </div>
 
-      <div className="w-full max-w-xl animate-fade-in-up" key={questionIndex}>
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-          {question}
-        </h2>
+            <div className="h-2 overflow-hidden rounded-full bg-white/8">
+              <div
+                className="h-full rounded-full bg-[#EB7F4B] transition-all duration-500"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
 
-        <div className="space-y-3">
-          {options.map((option) => (
-            <button
-              key={option}
-              onClick={() => onSelect(option)}
-              className="option-card w-full text-left text-base font-medium hover:translate-x-1 transition-transform"
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default QuestionScreen;
+          <div className="rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.35)] backdrop-blur-md sm:p-8">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#EB7F4B]">
