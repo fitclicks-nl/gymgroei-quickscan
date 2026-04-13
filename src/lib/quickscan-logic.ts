@@ -77,11 +77,10 @@ export const quickscanQuestions: QuickscanQuestion[] = [
     statement:
       "Mijn communicatie gaat verder dan alleen wat we aanbieden (fitness, lessen, etc.).",
   },
-  {
+    {
     id: 8,
     domain: "Positionering",
-    statement:
-      "Ik laat duidelijk zien wat iemand bij ons kan bereiken.",
+    statement: "Ik laat duidelijk zien wat iemand bij ons kan bereiken.",
   },
   {
     id: 9,
