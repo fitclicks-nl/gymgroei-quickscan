@@ -15,19 +15,18 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   };
 
- const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
-  setSubmitted(true);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
 
-  if (!gymName.trim() || !isValidEmail(email)) return;
+    if (!gymName.trim() || !isValidEmail(email)) return;
 
-  // 🔥 TRACKING
-  trackEvent("scanner_start", {
-    gym_name: gymName,
-  });
+    trackEvent("quickscan_start", {
+      gym_name: gymName,
+    });
 
-  onStart(gymName.trim(), email.trim());
-};
+    onStart(gymName.trim(), email.trim());
+  };
 
   const gymNameError = submitted && !gymName.trim();
   const emailError = submitted && !isValidEmail(email);
@@ -57,19 +56,31 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
       </style>
 
       <div className="mx-auto flex min-h-screen max-w-7xl items-center justify-center px-6 pt-28 pb-16 sm:pt-32 sm:pb-16">
-        <div className="w-full max-w-xl text-center">
+        <div className="w-full max-w-2xl text-center">
           <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#EB7F4B]">
-            Gratis groeiscan voor sportscholen
+            Gymgroei Quickscan
           </p>
 
           <h1 className="text-4xl font-bold leading-[1.05] tracking-[-0.03em] sm:text-5xl md:text-6xl">
-            Ontdek waar jouw gym{" "}
-            <span className="text-[#EB7F4B]">nu groei laat liggen</span>
+            Krijg scherp waar jouw gym{" "}
+            <span className="text-[#EB7F4B]">niet optimaal is ingericht voor groei</span>
           </h1>
 
-          <p className="mx-auto mt-5 max-w-lg text-base leading-7 text-white/65 sm:text-lg">
-            Krijg binnen 1 minuut inzicht in waar jouw gym nu groei laat liggen en welke kansen er blijven liggen.
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/65 sm:text-lg">
+            De Gymgroei Quickscan is een diepere analyse dan het gratis Groeiplan.
+            Je krijgt inzicht in waar je gym op dit moment kansen laat liggen, wat
+            jouw grootste aandachtspunt is en waar je als eerste moet beginnen.
           </p>
+
+          <div className="mx-auto mt-6 max-w-xl rounded-3xl border border-white/8 bg-white/[0.03] px-5 py-4 text-left shadow-[0_10px_50px_rgba(0,0,0,0.20)] backdrop-blur-md">
+            <p className="text-sm leading-6 text-white/70">
+              Dit is een <span className="font-semibold text-white">betaald product</span> voor
+              fitnessondernemers die verder willen kijken dan alleen een diagnose.
+              In ongeveer 5 minuten doorloop je de scan en krijg je direct een
+              duidelijke analyse van je belangrijkste groeipunt en de juiste volgorde
+              om dit aan te pakken.
+            </p>
+          </div>
 
           <form
             onSubmit={handleSubmit}
@@ -135,30 +146,30 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
                     zIndex: 1,
                   }}
                 />
-                <span className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 transition group-hover:opacity-100 z-[2]" />
-                <span className="relative z-10">Start gratis scan</span>
+                <span className="absolute inset-0 z-[2] rounded-2xl bg-white/10 opacity-0 transition group-hover:opacity-100" />
+                <span className="relative z-10">Start jouw Quickscan</span>
               </button>
             </div>
 
             <p className="mt-4 text-center text-sm text-white/50">
-              Je ontvangt je groeiplan direct na de scan.
+              Je ontvangt direct jouw analyse na het invullen van de scan.
             </p>
             <p className="mt-2 text-center text-xs text-white/40">
-  We gebruiken je gegevens alleen om je groeiplan te sturen. Geen spam.
-</p>
+              We gebruiken je gegevens alleen om je resultaat te tonen en toe te sturen.
+            </p>
 
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-white/8 pt-5 text-sm text-white/55">
               <div className="flex items-center gap-2">
                 <Shield size={16} className="text-white/55" />
-                <span>100% gratis</span>
+                <span>Betaald product</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock3 size={16} className="text-white/55" />
-                <span>Binnen 60 seconden</span>
+                <span>Binnen 5 minuten ingevuld</span>
               </div>
               <div className="flex items-center gap-2">
                 <CircleCheck size={16} className="text-white/55" />
-                <span>Geen verplichtingen</span>
+                <span>Direct inzicht en prioriteit</span>
               </div>
             </div>
           </form>
