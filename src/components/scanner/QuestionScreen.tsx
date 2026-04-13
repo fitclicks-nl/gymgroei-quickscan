@@ -54,3 +54,50 @@ const QuestionScreen = ({
 
           <div className="rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.35)] backdrop-blur-md sm:p-8">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#EB7F4B]">
+              Gymgroei Quickscan
+            </p>
+
+            <h2 className="text-2xl font-bold leading-[1.15] tracking-[-0.03em] sm:text-3xl md:text-4xl">
+              {question}
+            </h2>
+
+            <p className="mt-4 text-sm leading-6 text-white/55 sm:text-base">
+              Kies in hoeverre deze stelling op jouw gym van toepassing is.
+            </p>
+
+            <div className="mt-8 space-y-3">
+              {options.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => handleSelect(option)}
+                  className="group w-full rounded-2xl border border-white/8 bg-white/[0.03] px-5 py-4 text-left transition duration-200 hover:border-[#EB7F4B]/45 hover:bg-white/[0.05]"
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-base font-medium text-white/90">
+                      {option.label}
+                    </span>
+
+                    <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-3 text-sm font-semibold text-white/55 transition group-hover:border-[#EB7F4B]/30 group-hover:text-[#EB7F4B]">
+                      {option.value}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-8 grid grid-cols-5 gap-2 text-center text-xs text-white/35 sm:text-sm">
+              <div>Helemaal oneens</div>
+              <div />
+              <div>Neutraal</div>
+              <div />
+              <div>Helemaal eens</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default QuestionScreen;
