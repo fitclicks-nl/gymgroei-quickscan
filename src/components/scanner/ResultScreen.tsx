@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ResultScreenProps = {
   gymName: string;
@@ -6,7 +6,15 @@ type ResultScreenProps = {
 };
 
 const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
-  const [isUnlocked] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("unlock") === "true") {
+      setIsUnlocked(true);
+    }
+  }, []);
 
   const { scores, lowestDomain, summary, priorityTitle, actions, avoid } = result;
 
@@ -67,10 +75,11 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
               </h3>
 
               <p className="mt-4 leading-7 text-white/70">
-                Je volledige resultaat bevat:
+                Je volledige Quickscan bevat alles wat je nodig hebt om van inzicht
+                naar actie te gaan.
               </p>
 
-              <div className="mt-4 space-y-3 text-white/75">
+              <div className="mt-5 space-y-3 text-white/75">
                 <div className="flex items-start gap-3">
                   <span className="mt-1 text-[#EB7F4B]">•</span>
                   <span>Je 3 belangrijkste acties in de juiste volgorde</span>
@@ -83,20 +92,14 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                   <span className="mt-1 text-[#EB7F4B]">•</span>
                   <span>Je complete overzicht per domein</span>
                 </div>
-                <div className="flex items-start gap-3">
-                  <span className="mt-1 text-[#EB7F4B]">•</span>
-                  <span>Directe richting voor de komende 30 dagen</span>
+              </div>
+
+              <div className="mt-6 flex items-end justify-between gap-4">
+                <div>
+                  <p className="text-sm text-white/45">Eenmalig</p>
+                  <p className="text-3xl font-bold text-white">€49</p>
                 </div>
-              </div>
 
-              <div className="mt-6 rounded-2xl border border-white/8 bg-white/[0.03] p-4">
-                <p className="text-sm leading-6 text-white/60">
-                  Dit is geen gratis diagnose, maar een verdiepende quickscan voor
-                  ondernemers die precies willen weten waar ze als eerste moeten beginnen.
-                </p>
-              </div>
-
-              <div className="mt-6 text-center">
                 <button
                   type="button"
                   className="group relative inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.02]"
@@ -116,14 +119,14 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                         "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
                     }}
                   >
-                    Ontgrendel voor €49 →
+                    Ontgrendel nu →
                   </span>
                 </button>
-
-                <p className="mt-4 text-sm text-white/40">
-                  Betaalkoppeling volgt hier in de volgende stap
-                </p>
               </div>
+
+              <p className="mt-4 text-sm text-white/40">
+                Betaalkoppeling volgt hier in de volgende stap
+              </p>
             </div>
           )}
 
@@ -263,6 +266,13 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
           )}
         </div>
       </div>
+
+      <button
+        onClick={() => setIsUnlocked(!isUnlocked)}
+        className="fixed bottom-4 right-4 z-50 rounded-xl bg-white/5 px-4 py-2 text-xs text-white/60 transition hover:bg-white/10 hover:text-white"
+      >
+        Toggle unlock
+      </button>
     </div>
   );
 };
