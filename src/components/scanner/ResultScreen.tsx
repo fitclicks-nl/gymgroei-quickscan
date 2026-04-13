@@ -15,17 +15,22 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
           </p>
 
           <h1 className="text-3xl font-bold leading-[1.08] tracking-[-0.03em] sm:text-4xl md:text-5xl">
-            {gymName}, hier moet je als eerste naar kijken
+            {gymName}, hier laat je nu het meeste resultaat liggen
           </h1>
 
           <p className="mt-4 max-w-2xl text-base leading-7 text-white/65">
-            De meeste gyms denken dat ze meer leads nodig hebben. In jouw geval zit
-            de grootste winst vooral ergens anders.
+            De meeste gyms denken dat ze meer leads nodig hebben. In de praktijk
+            zit de grootste winst vaak ergens anders.
           </p>
+
+          <div className="mt-3 max-w-2xl rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3 text-sm leading-6 text-white/55">
+            Als je dit niet oplost, blijf je afhankelijk van losse acties, toeval
+            en onnodige ruis in je marketing.
+          </div>
 
           <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
             <p className="text-sm font-medium text-[#EB7F4B]">
-              Dit is waar je nu het meeste resultaat laat liggen
+              Dit is waar je nu structureel winst laat liggen
             </p>
 
             <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
@@ -33,12 +38,22 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             </h2>
 
             <p className="mt-4 leading-7 text-white/75">{summary}</p>
+
+            <p className="mt-4 leading-7 text-white/65">
+              Daardoor laat je nu waarschijnlijk structureel nieuwe leden liggen,
+              zonder dat je dat elke dag direct doorhebt.
+            </p>
           </div>
 
           <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
             <h2 className="text-2xl font-semibold tracking-[-0.02em]">
               Dit ga je de komende 30 dagen doen
             </h2>
+
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+              Niet alles tegelijk. Dit zijn de eerste stappen die het meeste
+              verschil maken.
+            </p>
 
             <div className="mt-6 space-y-5">
               {actions.map((action: any, index: number) => (
@@ -129,8 +144,7 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
 
           <div className="mt-10 text-center">
             <p className="mb-4 text-sm text-white/50">
-              Dit is je startpunt. Wil je hier een concreet actieplan van maken voor
-              jouw gym?
+              Dit is je startpunt. Wil je dit concreet vertalen naar jouw gym?
             </p>
 
             <a
@@ -143,11 +157,12 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                   "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
               }}
             >
-              Plan een kennismaking
+              Plan een kennismaking en maak dit concreet
             </a>
 
             <p className="mt-4 text-sm text-white/40">
-              Dan kijken we samen hoe je dit vertaalt naar jouw praktijk.
+              Dan kijken we samen waar je nu concreet leden laat liggen en wat je
+              als eerste moet aanscherpen.
             </p>
           </div>
         </div>
