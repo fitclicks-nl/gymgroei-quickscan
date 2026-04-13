@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type ResultScreenProps = {
   gymName: string;
@@ -16,6 +16,13 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
   }, []);
 
   const { scores, lowestDomain, summary, priorityTitle, actions, avoid } = result;
+
+  const teaserText = useMemo(() => {
+    const maxLength = 260;
+    if (!summary) return "";
+    if (summary.length <= maxLength) return summary;
+    return `${summary.slice(0, maxLength).trim()}...`;
+  }, [summary]);
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
@@ -42,17 +49,93 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             </p>
           </div>
 
-          <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-            <p className="text-sm font-medium text-[#EB7F4B]">
-              Dit is waar je nu structureel winst laat liggen
-            </p>
+          {!isUnlocked ? (
+            <>
+              <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+                <p className="text-sm font-medium text-[#EB7F4B]">
+                  Preview van jouw grootste aandachtspunt
+                </p>
 
-            <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
-              {priorityTitle}
-            </h2>
+                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
+                  {priorityTitle}
+                </h2>
 
-            {isUnlocked ? (
-              <>
+                <p className="mt-4 leading-7 text-white/75">{teaserText}</p>
+              </div>
+
+              <div className="mt-6 rounded-3xl border border-[#EB7F4B]/20 bg-[linear-gradient(180deg,rgba(235,127,75,0.08),rgba(235,127,75,0.03))] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)]">
+                <p className="text-sm font-medium text-[#EB7F4B]">
+                  Ontgrendel jouw volledige Quickscan
+                </p>
+
+                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
+                  Zie precies wat je de komende 30 dagen moet doen
+                </h3>
+
+                <p className="mt-4 leading-7 text-white/70">
+                  Je volledige Quickscan laat niet alleen zien waar het schuurt,
+                  maar vooral wat je als eerste moet aanpakken.
+                </p>
+
+                <div className="mt-5 space-y-3 text-white/75">
+                  <div className="flex items-start gap-3">
+                    <span className="mt-1 text-[#EB7F4B]">•</span>
+                    <span>Je 3 belangrijkste acties in de juiste volgorde</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="mt-1 text-[#EB7F4B]">•</span>
+                    <span>Wat je nu beter niet kunt doen</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="mt-1 text-[#EB7F4B]">•</span>
+                    <span>Je complete overzicht per domein</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex flex-col items-center justify-center">
+                  <p className="text-sm text-white/45">Eenmalig</p>
+                  <p className="mt-1 text-3xl font-bold text-white">€49</p>
+
+                  <button
+                    type="button"
+                    className="group relative mt-4 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.02]"
+                  >
+                    <span
+                      className="absolute -inset-1 rounded-[1.2rem]"
+                      style={{
+                        background: "rgba(235,127,75,0.25)",
+                        filter: "blur(16px)",
+                        opacity: 0.65,
+                      }}
+                    />
+                    <span
+                      className="relative inline-flex h-full w-full items-center justify-center rounded-2xl px-7"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
+                      }}
+                    >
+                      Ontgrendel nu →
+                    </span>
+                  </button>
+                </div>
+
+                <p className="mt-4 text-center text-sm text-white/40">
+                  Voor testen kun je tijdelijk <span className="text-white/60">?unlock=true</span> achter de URL zetten
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+                <p className="text-sm font-medium text-[#EB7F4B]">
+                  Dit is waar je nu structureel winst laat liggen
+                </p>
+
+                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
+                  {priorityTitle}
+                </h2>
+
                 <p className="mt-4 leading-7 text-white/75">{summary}</p>
 
                 <p className="mt-4 leading-7 text-white/65">
@@ -63,95 +146,16 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                 <p className="mt-4 leading-7 text-white/65">
                   Dit is precies waarom groei nu minder voorspelbaar voelt dan nodig is.
                 </p>
-              </>
-            ) : (
-              <div className="relative mt-4">
-                <div
-                  className="overflow-hidden"
-                  style={{
-                    maxHeight: "190px",
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",
-                    maskImage:
-                      "linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",
-                  }}
-                >
-                  <p className="leading-7 text-white/75">{summary}</p>
-
-                  <p className="mt-4 leading-7 text-white/65">
-                    Daardoor laat je nu waarschijnlijk structureel nieuwe leden liggen,
-                    zonder dat je dat elke dag direct doorhebt.
-                  </p>
-
-                  <p className="mt-4 leading-7 text-white/65">
-                    Dit is precies waarom groei nu minder voorspelbaar voelt dan nodig is.
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {!isUnlocked && (
-            <div className="mt-6 rounded-3xl border border-[#EB7F4B]/20 bg-[linear-gradient(180deg,rgba(235,127,75,0.08),rgba(235,127,75,0.03))] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.28)]">
-              <p className="text-sm font-medium text-[#EB7F4B]">
-                Ontgrendel jouw volledige Quickscan
-              </p>
-
-              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
-                Zie precies wat je de komende 30 dagen moet doen
-              </h3>
-
-              <div className="mt-5 space-y-3 text-white/75">
-                <div className="flex items-start gap-3">
-                  <span className="mt-1 text-[#EB7F4B]">•</span>
-                  <span>Je 3 belangrijkste acties in de juiste volgorde</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="mt-1 text-[#EB7F4B]">•</span>
-                  <span>Wat je nu beter niet kunt doen</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="mt-1 text-[#EB7F4B]">•</span>
-                  <span>Je complete overzicht per domein</span>
-                </div>
               </div>
 
-              <div className="mt-6 flex flex-col items-center justify-center">
-                <p className="text-sm text-white/45">Eenmalig</p>
-                <p className="mt-1 text-3xl font-bold text-white">€49</p>
-
-                <button
-                  type="button"
-                  className="group relative mt-4 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.02]"
-                >
-                  <span
-                    className="absolute -inset-1 rounded-[1.2rem]"
-                    style={{
-                      background: "rgba(235,127,75,0.25)",
-                      filter: "blur(16px)",
-                      opacity: 0.65,
-                    }}
-                  />
-                  <span
-                    className="relative inline-flex h-full w-full items-center justify-center rounded-2xl px-7"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
-                    }}
-                  >
-                    Ontgrendel nu →
-                  </span>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {isUnlocked && (
-            <>
               <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6">
                 <h2 className="text-2xl font-semibold">
                   Dit ga je de komende 30 dagen doen
                 </h2>
+
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+                  Niet alles tegelijk. Dit zijn de eerste stappen die het meeste verschil maken.
+                </p>
 
                 <div className="mt-6 space-y-5">
                   {actions.map((action: any, index: number) => (
@@ -236,13 +240,6 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
           )}
         </div>
       </div>
-
-      <button
-        onClick={() => setIsUnlocked(!isUnlocked)}
-        className="fixed bottom-4 right-4 z-50 rounded-xl bg-white/5 px-4 py-2 text-xs text-white/60 hover:bg-white/10 hover:text-white"
-      >
-        Toggle unlock
-      </button>
     </div>
   );
 };
