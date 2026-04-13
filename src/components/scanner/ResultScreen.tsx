@@ -23,9 +23,18 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             <p>In de praktijk verliezen ze vooral resultaat in wat er al binnenkomt.</p>
           </div>
 
-          <div className="mt-4 max-w-2xl rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3 text-sm leading-6 text-white/55">
-            Als je dit niet oplost, blijf je afhankelijk van losse acties, toeval en
-            onnodige ruis in je marketing.
+          <div className="relative mt-6 overflow-hidden rounded-3xl border border-[#EB7F4B]/25 bg-[#EB7F4B]/8 p-5 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+            <div
+              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full blur-3xl"
+              style={{ background: "rgba(235,127,75,0.18)" }}
+            />
+            <p className="text-sm font-medium text-[#EB7F4B]">
+              Dit voel je nu waarschijnlijk in de praktijk
+            </p>
+            <p className="mt-3 text-base leading-7 text-white/85 sm:text-lg">
+              Als je dit niet oplost, blijf je afhankelijk van losse acties,
+              toeval en onnodige ruis in je marketing.
+            </p>
           </div>
 
           <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
@@ -146,42 +155,39 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
           </div>
 
           <div className="mt-10 text-center">
-  <p className="mb-4 text-sm text-white/50">
-    Dit is je startpunt. Wil je hier concreet mee aan de slag voor jouw gym?
-  </p>
+            <p className="mb-4 text-sm text-white/50">
+              Dit is je startpunt. Wil je hier concreet mee aan de slag voor jouw gym?
+            </p>
 
-  <a
-    href="https://calendly.com/fitclicks/kickstart"
-    target="_blank"
-    rel="noreferrer"
-    className="group relative inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.02]"
-  >
-    {/* glow */}
-    <span
-      className="absolute -inset-1 rounded-[1.2rem]"
-      style={{
-        background: "rgba(235,127,75,0.35)",
-        filter: "blur(18px)",
-        opacity: 0.7,
-      }}
-    />
+            <a
+              href="https://calendly.com/fitclicks/kickstart"
+              target="_blank"
+              rel="noreferrer"
+              className="group relative inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.02]"
+            >
+              <span
+                className="absolute -inset-1 rounded-[1.2rem]"
+                style={{
+                  background: "rgba(235,127,75,0.35)",
+                  filter: "blur(18px)",
+                  opacity: 0.7,
+                }}
+              />
+              <span
+                className="relative inline-flex h-full w-full items-center justify-center rounded-2xl px-7"
+                style={{
+                  background:
+                    "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
+                }}
+              >
+                Plan een kennismaking →
+              </span>
+            </a>
 
-    {/* button */}
-    <span
-      className="relative inline-flex h-full w-full items-center justify-center rounded-2xl px-7"
-      style={{
-        background:
-          "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
-      }}
-    >
-      Plan een kennismaking →
-    </span>
-  </a>
-
-  <p className="mt-4 text-sm text-white/40">
-    Ontdek waar je nu concreet leden laat liggen
-  </p>
-</div>
+            <p className="mt-4 text-sm text-white/40">
+              Ontdek waar je nu concreet leden laat liggen
+            </p>
+          </div>
         </div>
       </div>
     </div>
