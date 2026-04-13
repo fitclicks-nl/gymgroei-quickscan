@@ -146,28 +146,42 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
           </div>
 
           <div className="mt-10 text-center">
-            <p className="mb-4 text-sm text-white/50">
-              Dit is je startpunt. Wil je hier concreet mee aan de slag voor jouw gym?
-            </p>
+  <p className="mb-4 text-sm text-white/50">
+    Dit is je startpunt. Wil je hier concreet mee aan de slag voor jouw gym?
+  </p>
 
-            <a
-              href="https://calendly.com/fitclicks/kickstart"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex h-14 items-center justify-center rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.01]"
-              style={{
-                background:
-                  "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
-              }}
-            >
-              Plan een kennismaking en ontdek waar je nu concreet leden laat liggen
-            </a>
+  <a
+    href="https://calendly.com/fitclicks/kickstart"
+    target="_blank"
+    rel="noreferrer"
+    className="group relative inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.02]"
+  >
+    {/* glow */}
+    <span
+      className="absolute -inset-1 rounded-[1.2rem]"
+      style={{
+        background: "rgba(235,127,75,0.35)",
+        filter: "blur(18px)",
+        opacity: 0.7,
+      }}
+    />
 
-            <p className="mt-4 text-sm text-white/40">
-              Dan kijken we samen wat je als eerste moet aanpassen om meer leden uit je
-              huidige instroom te halen.
-            </p>
-          </div>
+    {/* button */}
+    <span
+      className="relative inline-flex h-full w-full items-center justify-center rounded-2xl px-7"
+      style={{
+        background:
+          "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
+      }}
+    >
+      Plan een kennismaking →
+    </span>
+  </a>
+
+  <p className="mt-4 text-sm text-white/40">
+    Ontdek waar je nu concreet leden laat liggen
+  </p>
+</div>
         </div>
       </div>
     </div>
