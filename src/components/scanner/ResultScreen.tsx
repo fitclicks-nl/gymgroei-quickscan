@@ -68,16 +68,16 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                 </p>
               </div>
 
-              {/* fade */}
+              {/* BETERE FADE */}
               {!isUnlocked && (
-                <div className="pointer-events-none absolute bottom-0 left-0 h-28 w-full bg-gradient-to-t from-[#0B0F1A] to-transparent" />
+                <div className="pointer-events-none absolute bottom-0 left-0 h-40 w-full bg-gradient-to-t from-[#0B0F1A] via-[#0B0F1A]/80 to-transparent" />
               )}
             </div>
           </div>
 
           {/* PAYWALL */}
           {!isUnlocked && (
-            <div className="mt-[-60px] rounded-3xl border border-[#EB7F4B]/20 bg-[linear-gradient(180deg,rgba(235,127,75,0.08),rgba(235,127,75,0.03))] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-sm">
+            <div className="mt-[-30px] pt-8 border-t border-white/5 rounded-3xl border border-[#EB7F4B]/20 bg-[linear-gradient(180deg,rgba(235,127,75,0.08),rgba(235,127,75,0.03))] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-sm">
               <p className="text-sm font-medium text-[#EB7F4B]">
                 Ontgrendel jouw volledige Quickscan
               </p>
@@ -101,7 +101,7 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                 </div>
               </div>
 
-              {/* prijs + CTA */}
+              {/* PRIJS + CTA */}
               <div className="mt-6 text-center">
                 <p className="text-sm text-white/45">Eenmalig</p>
                 <p className="text-3xl font-bold text-white">€49</p>
@@ -142,7 +142,10 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
 
                 <div className="mt-6 space-y-5">
                   {actions.map((action: any, index: number) => (
-                    <div key={index} className="rounded-2xl border border-white/8 bg-white/[0.02] p-5">
+                    <div
+                      key={index}
+                      className="rounded-2xl border border-white/8 bg-white/[0.02] p-5"
+                    >
                       <h3 className="text-lg font-semibold">
                         {index + 1}. {action.title}
                       </h3>
@@ -167,7 +170,7 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
         </div>
       </div>
 
-      {/* DEBUG */}
+      {/* DEBUG BUTTON */}
       <button
         onClick={() => setIsUnlocked(!isUnlocked)}
         className="fixed bottom-4 right-4 z-50 rounded-xl bg-white/5 px-4 py-2 text-xs text-white/60 hover:bg-white/10 hover:text-white"
