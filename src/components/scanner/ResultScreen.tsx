@@ -1,9 +1,13 @@
+import { useState } from "react";
+
 type ResultScreenProps = {
   gymName: string;
   result: any;
 };
 
 const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
+  const [isUnlocked] = useState(false);
+
   const { scores, lowestDomain, summary, priorityTitle, actions, avoid } = result;
 
   return (
@@ -52,136 +56,211 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
             </p>
           </div>
 
-          <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-            <h2 className="text-2xl font-semibold tracking-[-0.02em]">
-              Dit ga je de komende 30 dagen doen
-            </h2>
+          {!isUnlocked && (
+            <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[linear-gradient(180deg,rgba(235,127,75,0.08),rgba(235,127,75,0.03))] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+              <p className="text-sm font-medium text-[#EB7F4B]">
+                Ontgrendel jouw volledige Quickscan
+              </p>
 
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
-              Niet alles tegelijk. Dit zijn de eerste stappen die het meeste verschil maken.
-            </p>
+              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
+                Krijg direct inzicht in wat je de komende 30 dagen moet doen
+              </h3>
 
-            <div className="mt-6 space-y-5">
-              {actions.map((action: any, index: number) => (
-                <div
-                  key={index}
-                  className="rounded-2xl border border-white/8 bg-white/[0.02] p-5"
-                >
-                  <h3 className="text-lg font-semibold">
-                    {index + 1}. {action.title}
-                  </h3>
+              <p className="mt-4 leading-7 text-white/70">
+                Je volledige resultaat bevat:
+              </p>
 
-                  <p className="mt-3 text-sm leading-6 text-white/70">
-                    <span className="font-medium text-white">Dit ga je concreet doen:</span>{" "}
-                    {action.what}
-                  </p>
-
-                  <p className="mt-3 text-sm leading-6 text-white/60">
-                    <span className="font-medium text-white">
-                      Waarom dit belangrijk is:
-                    </span>{" "}
-                    {action.why}
-                  </p>
-
-                  <p className="mt-3 text-sm leading-6 text-white/60">
-                    <span className="font-medium text-white">
-                      Wat dit oplevert:
-                    </span>{" "}
-                    {action.result}
-                  </p>
+              <div className="mt-4 space-y-3 text-white/75">
+                <div className="flex items-start gap-3">
+                  <span className="mt-1 text-[#EB7F4B]">•</span>
+                  <span>Je 3 belangrijkste acties in de juiste volgorde</span>
                 </div>
-              ))}
+                <div className="flex items-start gap-3">
+                  <span className="mt-1 text-[#EB7F4B]">•</span>
+                  <span>Wat je nu beter niet kunt doen</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="mt-1 text-[#EB7F4B]">•</span>
+                  <span>Je complete overzicht per domein</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="mt-1 text-[#EB7F4B]">•</span>
+                  <span>Directe richting voor de komende 30 dagen</span>
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-2xl border border-white/8 bg-white/[0.03] p-4">
+                <p className="text-sm leading-6 text-white/60">
+                  Dit is geen gratis diagnose, maar een verdiepende quickscan voor
+                  ondernemers die precies willen weten waar ze als eerste moeten beginnen.
+                </p>
+              </div>
+
+              <div className="mt-6 text-center">
+                <button
+                  type="button"
+                  className="group relative inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.02]"
+                >
+                  <span
+                    className="absolute -inset-1 rounded-[1.2rem]"
+                    style={{
+                      background: "rgba(235,127,75,0.35)",
+                      filter: "blur(18px)",
+                      opacity: 0.7,
+                    }}
+                  />
+                  <span
+                    className="relative inline-flex h-full w-full items-center justify-center rounded-2xl px-7"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
+                    }}
+                  >
+                    Ontgrendel voor €49 →
+                  </span>
+                </button>
+
+                <p className="mt-4 text-sm text-white/40">
+                  Betaalkoppeling volgt hier in de volgende stap
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="mt-8 rounded-3xl border border-red-500/20 bg-red-500/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-            <h3 className="text-lg font-semibold text-red-400">
-              Wat je nu beter niet kunt doen
-            </h3>
+          {isUnlocked && (
+            <>
+              <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+                <h2 className="text-2xl font-semibold tracking-[-0.02em]">
+                  Dit ga je de komende 30 dagen doen
+                </h2>
 
-            <p className="mt-3 leading-7 text-white/70">{avoid}</p>
-          </div>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+                  Niet alles tegelijk. Dit zijn de eerste stappen die het meeste verschil maken.
+                </p>
 
-          <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-            <h3 className="text-xl font-semibold">Bekijk je scores per onderdeel</h3>
+                <div className="mt-6 space-y-5">
+                  {actions.map((action: any, index: number) => (
+                    <div
+                      key={index}
+                      className="rounded-2xl border border-white/8 bg-white/[0.02] p-5"
+                    >
+                      <h3 className="text-lg font-semibold">
+                        {index + 1}. {action.title}
+                      </h3>
 
-            <div className="mt-5 space-y-4">
-              {Object.entries(scores).map(([domain, score]) => {
-                const isLowest = domain === lowestDomain;
+                      <p className="mt-3 text-sm leading-6 text-white/70">
+                        <span className="font-medium text-white">Dit ga je concreet doen:</span>{" "}
+                        {action.what}
+                      </p>
 
-                return (
-                  <div key={domain}>
-                    <div className="mb-2 flex items-center justify-between text-sm">
-                      <span
-                        className={
-                          isLowest ? "font-medium text-[#EB7F4B]" : "text-white/80"
-                        }
-                      >
-                        {domain}
-                      </span>
-                      <span
-                        className={
-                          isLowest ? "font-medium text-[#EB7F4B]" : "text-white/55"
-                        }
-                      >
-                        {score}/5
-                      </span>
+                      <p className="mt-3 text-sm leading-6 text-white/60">
+                        <span className="font-medium text-white">
+                          Waarom dit belangrijk is:
+                        </span>{" "}
+                        {action.why}
+                      </p>
+
+                      <p className="mt-3 text-sm leading-6 text-white/60">
+                        <span className="font-medium text-white">
+                          Wat dit oplevert:
+                        </span>{" "}
+                        {action.result}
+                      </p>
                     </div>
+                  ))}
+                </div>
+              </div>
 
-                    <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-                      <div
-                        className={`h-full rounded-full ${
-                          isLowest ? "bg-[#EB7F4B]" : "bg-white/35"
-                        }`}
-                        style={{ width: `${(Number(score) / 5) * 100}%` }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+              <div className="mt-8 rounded-3xl border border-red-500/20 bg-red-500/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+                <h3 className="text-lg font-semibold text-red-400">
+                  Wat je nu beter niet kunt doen
+                </h3>
 
-            <p className="mt-5 text-sm leading-6 text-white/55">
-              Je laagste score ligt bij{" "}
-              <span className="font-medium text-white">{lowestDomain}</span>. Daar
-              zit op dit moment je grootste aandachtspunt.
-            </p>
-          </div>
+                <p className="mt-3 leading-7 text-white/70">{avoid}</p>
+              </div>
 
-          <div className="mt-10 text-center">
-            <p className="mb-4 text-sm text-white/50">
-              Dit is je startpunt. Wil je hier concreet mee aan de slag voor jouw gym?
-            </p>
+              <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+                <h3 className="text-xl font-semibold">Bekijk je scores per onderdeel</h3>
 
-            <a
-              href="https://calendly.com/fitclicks/kickstart"
-              target="_blank"
-              rel="noreferrer"
-              className="group relative inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.02]"
-            >
-              <span
-                className="absolute -inset-1 rounded-[1.2rem]"
-                style={{
-                  background: "rgba(235,127,75,0.35)",
-                  filter: "blur(18px)",
-                  opacity: 0.7,
-                }}
-              />
-              <span
-                className="relative inline-flex h-full w-full items-center justify-center rounded-2xl px-7"
-                style={{
-                  background:
-                    "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
-                }}
-              >
-                Plan een kennismaking →
-              </span>
-            </a>
+                <div className="mt-5 space-y-4">
+                  {Object.entries(scores).map(([domain, score]) => {
+                    const isLowest = domain === lowestDomain;
 
-            <p className="mt-4 text-sm text-white/40">
-              Ontdek waar je nu concreet leden laat liggen
-            </p>
-          </div>
+                    return (
+                      <div key={domain}>
+                        <div className="mb-2 flex items-center justify-between text-sm">
+                          <span
+                            className={
+                              isLowest ? "font-medium text-[#EB7F4B]" : "text-white/80"
+                            }
+                          >
+                            {domain}
+                          </span>
+                          <span
+                            className={
+                              isLowest ? "font-medium text-[#EB7F4B]" : "text-white/55"
+                            }
+                          >
+                            {score}/5
+                          </span>
+                        </div>
+
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+                          <div
+                            className={`h-full rounded-full ${
+                              isLowest ? "bg-[#EB7F4B]" : "bg-white/35"
+                            }`}
+                            style={{ width: `${(Number(score) / 5) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <p className="mt-5 text-sm leading-6 text-white/55">
+                  Je laagste score ligt bij{" "}
+                  <span className="font-medium text-white">{lowestDomain}</span>. Daar
+                  zit op dit moment je grootste aandachtspunt.
+                </p>
+              </div>
+
+              <div className="mt-10 text-center">
+                <p className="mb-4 text-sm text-white/50">
+                  Wil je hierna samen de vertaalslag maken naar jouw gym?
+                </p>
+
+                <a
+                  href="https://calendly.com/fitclicks/kickstart"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group relative inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.02]"
+                >
+                  <span
+                    className="absolute -inset-1 rounded-[1.2rem]"
+                    style={{
+                      background: "rgba(235,127,75,0.35)",
+                      filter: "blur(18px)",
+                      opacity: 0.7,
+                    }}
+                  />
+                  <span
+                    className="relative inline-flex h-full w-full items-center justify-center rounded-2xl px-7"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
+                    }}
+                  >
+                    Plan een kennismaking →
+                  </span>
+                </a>
+
+                <p className="mt-4 text-sm text-white/40">
+                  Ontdek waar je nu concreet leden laat liggen
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
