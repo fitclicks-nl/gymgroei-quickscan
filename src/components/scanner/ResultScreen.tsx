@@ -417,7 +417,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
   </h3>
 
   <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/65">
-    Je weet nu dat <span className="font-medium text-white">{lowestDomain}</span> je grootste groeikans is. De volgende stap is zorgen dat dit ook daadwerkelijk wordt opgelost in je marketing en opvolging.
+    Je weet nu dat <span className="font-medium text-white">{lowestDomain}</span> je grootste groeikans is. Maar inzicht alleen verandert niets — de volgende stap is zorgen dat dit ook echt wordt opgelost in je marketing en opvolging.
   </p>
 
   <button
