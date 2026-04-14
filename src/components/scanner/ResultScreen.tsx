@@ -241,49 +241,57 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                 </div>
 
                 <div className="mt-6 rounded-2xl border border-white/8 bg-black/10 px-4 py-5 text-center">
-                  <p className="text-sm text-white/45">Eenmalig</p>
-                  <p className="mt-1 text-3xl font-bold text-white">€49</p>
+  <p className="text-sm text-white/45">Eenmalig</p>
+  <p className="mt-1 text-3xl font-bold text-white">€49</p>
 
-                  <button
-                    type="button"
-                    onClick={handleStartPayment}
-                    disabled={isStartingPayment || isCheckingPayment}
-                    className={`group relative mt-4 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 ${
-                      isStartingPayment || isCheckingPayment
-                        ? "cursor-not-allowed opacity-70"
-                        : "hover:scale-[1.01]"
-                    }`}
-                  >
-                    <span
-                      className="absolute -inset-1 rounded-[1.1rem]"
-                      style={{
-                        background: "rgba(235,127,75,0.26)",
-                        filter: "blur(14px)",
-                        animation:
-                          isStartingPayment || isCheckingPayment
-                            ? "none"
-                            : "fitclicksSubtlePulse 2.4s ease-in-out infinite",
-                        zIndex: 0,
-                      }}
-                    />
-                    <span
-                      className="absolute inset-0 rounded-2xl"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
-                        zIndex: 1,
-                      }}
-                    />
-                    <span className="absolute inset-0 z-[2] rounded-2xl bg-white/8 opacity-0 transition group-hover:opacity-100" />
-                    <span className="relative z-10">
-                      {isStartingPayment
-                        ? "Betaling starten..."
-                        : isCheckingPayment
-                        ? "Betaling controleren..."
-                        : "Ontgrendel nu →"}
-                    </span>
-                  </button>
-                </div>
+  <button
+    type="button"
+    onClick={handleStartPayment}
+    disabled={isStartingPayment || isCheckingPayment}
+    className={`group relative mt-4 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 ${
+      isStartingPayment || isCheckingPayment
+        ? "cursor-not-allowed opacity-70"
+        : "hover:scale-[1.01]"
+    }`}
+  >
+    <span
+      className="absolute -inset-1 rounded-[1.1rem]"
+      style={{
+        background: "rgba(235,127,75,0.26)",
+        filter: "blur(14px)",
+        animation:
+          isStartingPayment || isCheckingPayment
+            ? "none"
+            : "fitclicksSubtlePulse 2.4s ease-in-out infinite",
+        zIndex: 0,
+      }}
+    />
+    <span
+      className="absolute inset-0 rounded-2xl"
+      style={{
+        background:
+          "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
+        zIndex: 1,
+      }}
+    />
+    <span className="absolute inset-0 z-[2] rounded-2xl bg-white/8 opacity-0 transition group-hover:opacity-100" />
+    <span className="relative z-10">
+      {isStartingPayment
+        ? "Betaling starten..."
+        : isCheckingPayment
+        ? "Betaling controleren..."
+        : "Ontgrendel nu →"}
+    </span>
+  </button>
+
+  <p className="mt-3 text-center text-sm text-white/70">
+    Direct inzicht in je grootste groeipunt + exact wat je de komende 30 dagen moet doen.
+  </p>
+
+  <p className="mt-1 text-center text-xs text-white/40">
+    Eenmalig €49 • Geen abonnement • Direct beschikbaar
+  </p>
+</div>
 
                 {paymentError && (
                   <p className="mt-4 text-center text-sm text-red-300">
