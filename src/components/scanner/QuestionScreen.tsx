@@ -30,7 +30,6 @@ const QuestionScreen = ({
     <div className="relative min-h-screen overflow-hidden text-white">
       <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-4 pb-6 pt-16 sm:px-6 sm:pb-8 sm:pt-20">
         <div className="w-full max-w-3xl">
-          {/* Progress */}
           <div className="mb-3 sm:mb-4">
             <div className="mb-2 flex items-center justify-between text-sm text-white/50">
               <span>
@@ -47,7 +46,6 @@ const QuestionScreen = ({
             </div>
           </div>
 
-          {/* Card */}
           <div className="rounded-[2rem] border border-white/8 bg-white/[0.03] px-4 py-4 shadow-[0_10px_50px_rgba(0,0,0,0.22)] backdrop-blur-md sm:px-7 sm:py-6">
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EB7F4B] sm:mb-4 sm:text-xs">
               Gymgroei Quickscan
@@ -68,7 +66,6 @@ const QuestionScreen = ({
               </p>
             </div>
 
-            {/* Answers */}
             <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4">
               {options.map((option) => {
                 const isSelected = value === option.value;
@@ -83,7 +80,11 @@ const QuestionScreen = ({
                         answer_value: option.value,
                         answer_label: option.label,
                       });
-                      onNext(option.value);
+
+                      const event = new CustomEvent("quickscan-select-answer", {
+                        detail: option.value,
+                      });
+                      window.dispatchEvent(event);
                     }}
                     className={`flex min-h-[76px] w-full items-center justify-between rounded-[1.4rem] border px-4 py-3 text-left transition-all duration-200 sm:min-h-[84px] sm:px-5 sm:py-4 ${
                       isSelected
@@ -109,7 +110,6 @@ const QuestionScreen = ({
               })}
             </div>
 
-            {/* Navigation */}
             <div className="mt-5 flex items-center justify-between gap-3 sm:mt-6">
               <button
                 type="button"
