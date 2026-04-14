@@ -149,20 +149,19 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
               We gebruiken je gegevens alleen om je Quickscan te tonen en toe te sturen. Geen spam.
             </p>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-white/8 pt-5 text-sm text-white/55">
-  <div className="flex items-center gap-2">
-    <Shield size={16} className="text-white/55" />
-    <span>Eenmalig €49</span>
-  </div>
-  <div className="flex items-center gap-2">
-    <Clock3 size={16} className="text-white/55" />
-    <span>Binnen 5 minuten ingevuld</span>
-  </div>
-  <div className="flex items-center gap-2">
-    <CircleCheck size={16} className="text-white/55" />
-    <span>Direct inzicht en prioriteit</span>
-  </div>
-</div>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-white/8 pt-5 text-sm text-white/55">
+              <div className="flex items-center gap-2">
+                <Shield size={16} className="text-white/55" />
+                <span>Eenmalig €49</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock3 size={16} className="text-white/55" />
+                <span>Binnen 5 minuten ingevuld</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CircleCheck size={16} className="text-white/55" />
+                <span>Direct inzicht en prioriteit</span>
+              </div>
             </div>
           </form>
         </div>
