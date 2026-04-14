@@ -1,98 +1,113 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type LoadingScreenProps = {
-  gymName?: string;
+  gymName: string;
   onDone: () => void;
 };
 
-const loadingSteps = [
-  "Gegevens analyseren...",
-  "Groeifase bepalen...",
-  "Belangrijkste aandachtspunt identificeren...",
-  "Kansen in leadgeneratie en conversie scannen...",
-  "Persoonlijk groeiplan samenstellen...",
-];
-
 const LoadingScreen = ({ gymName, onDone }: LoadingScreenProps) => {
+  const steps = useMemo(
+    () => [
+      `Antwoorden analyseren...`,
+      `Scores per domein berekenen...`,
+      `Grootste aandachtspunt bepalen...`,
+      `Eerste prioriteiten op volgorde zetten...`,
+      `Quickscan resultaat opstellen...`,
+    ],
+    []
+  );
+
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
-    const stepTimings = [700, 1500, 2400, 3300, 4300];
-    const timeouts: ReturnType<typeof setTimeout>[] = [];
+    if (activeStep >= steps.length) {
+      const doneTimer = window.setTimeout(() => {
+        onDone();
+      }, 500);
 
-    stepTimings.forEach((time, index) => {
-      const timeout = setTimeout(() => {
-        setActiveStep(index);
-      }, time);
-      timeouts.push(timeout);
-    });
+      return () => window.clearTimeout(doneTimer);
+    }
 
-    const doneTimeout = setTimeout(() => {
-      onDone();
-    }, 5000);
+    const timer = window.setTimeout(() => {
+      setActiveStep((prev) => prev + 1);
+    }, 850);
 
-    timeouts.push(doneTimeout);
+    return () => window.clearTimeout(timer);
+  }, [activeStep, steps.length, onDone]);
 
-    return () => {
-      timeouts.forEach(clearTimeout);
-    };
-  }, [onDone]);
+  const progress = Math.min((activeStep / steps.length) * 100, 100);
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
-      <div className="mx-auto flex min-h-screen max-w-4xl items-center justify-center px-6 py-16">
-        <div className="w-full max-w-xl text-center">
-          <div className="mx-auto mb-10 h-12 w-12 animate-spin rounded-full border border-white/10 border-t-[#EB7F4B]/80 opacity-80" />
+      <div className="mx-auto flex min-h-screen max-w-5xl items-center justify-center px-6 pt-28 pb-16 sm:pt-32 sm:pb-16">
+        <div className="w-full max-w-3xl text-center">
+          <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center">
+            <div className="relative h-16 w-16">
+              <div className="absolute inset-0 rounded-full border border-white/10" />
+              <div
+                className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#EB7F4B] border-r-[#EB7F4B]/70 animate-spin"
+                style={{ animationDuration: "1.15s" }}
+              />
+            </div>
+          </div>
 
-          <h2 className="text-3xl font-bold tracking-[-0.03em] sm:text-4xl">
-            We analyseren{" "}
-            <span className="text-[#EB7F4B]">
-              {gymName || "jouw gym"}
-            </span>
-            ...
-          </h2>
-
-          <p className="mx-auto mt-4 max-w-md text-base leading-7 text-white/60 sm:text-lg">
-            We brengen in kaart waar de grootste groeikansen en aandachtspunten liggen.
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#EB7F4B]">
+            Gymgroei Quickscan
           </p>
 
-          <div className="mx-auto mt-10 rounded-3xl border border-white/8 bg-white/[0.03] p-6 text-left shadow-[0_10px_50px_rgba(0,0,0,0.35),0_0_20px_rgba(235,127,75,0.05)] backdrop-blur-md">
-            <ul className="space-y-4 text-sm sm:text-base">
-              {loadingSteps.map((step, index) => {
+          <h1 className="text-4xl font-bold leading-[1.05] tracking-[-0.03em] sm:text-5xl md:text-6xl">
+            We analyseren <span className="text-[#EB7F4B]">{gymName}</span>
+          </h1>
+
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/62 sm:text-lg">
+            We brengen in kaart waar op dit moment je grootste aandachtspunt ligt
+            en welke eerste stappen daar het meeste verschil maken.
+          </p>
+
+          <div className="mx-auto mt-10 rounded-3xl border border-white/8 bg-white/[0.03] p-5 text-left shadow-[0_10px_50px_rgba(0,0,0,0.22)] backdrop-blur-md sm:p-6">
+            <div className="mb-5 h-2 overflow-hidden rounded-full bg-white/8">
+              <div
+                className="h-full rounded-full bg-[#EB7F4B] transition-all duration-500"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+
+            <div className="space-y-4">
+              {steps.map((step, index) => {
                 const isDone = index < activeStep;
                 const isActive = index === activeStep;
 
                 return (
-                  <li
-                    key={step}
-                    className={`flex items-center gap-3 transition-all duration-500 ${
-                      isActive
-                        ? "text-white scale-[1.02]"
-                        : isDone
-                        ? "text-white/70"
-                        : "text-white/40"
-                    }`}
-                  >
-                    <span
-                      className={`inline-flex h-5 w-5 items-center justify-center ${
+                  <div key={step} className="flex items-start gap-4">
+                    <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center">
+                      {isDone ? (
+                        <span className="text-lg font-semibold text-[#EB7F4B]">✓</span>
+                      ) : isActive ? (
+                        <span className="block h-4 w-4 rounded-full bg-white" />
+                      ) : (
+                        <span className="block h-4 w-4 rounded-full border border-white/25" />
+                      )}
+                    </div>
+
+                    <p
+                      className={`text-[1.05rem] leading-8 ${
                         isDone
-                          ? "text-[#EB7F4B]"
+                          ? "text-white/72"
                           : isActive
                           ? "text-white"
-                          : "text-white/30"
+                          : "text-white/32"
                       }`}
                     >
-                      {isDone ? "✓" : isActive ? "●" : "○"}
-                    </span>
-                    <span>{step}</span>
-                  </li>
+                      {step}
+                    </p>
+                  </div>
                 );
               })}
-            </ul>
+            </div>
           </div>
 
-          <p className="mt-6 text-sm text-white/40">
-            Dit is vaak precies het punt waar gyms ongemerkt leden laten liggen.
+          <p className="mx-auto mt-10 max-w-2xl text-base leading-8 text-white/42">
+            Dit is vaak precies het punt waar gyms onnodig resultaat laten liggen.
           </p>
         </div>
       </div>
