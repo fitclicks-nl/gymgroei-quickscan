@@ -14,6 +14,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
   const [isCheckingPayment, setIsCheckingPayment] = useState(false);
   const [isStartingPayment, setIsStartingPayment] = useState(false);
   const [paymentError, setPaymentError] = useState("");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -42,6 +43,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
 
         if (data.paid) {
           setIsUnlocked(true);
+          setShowSuccessMessage(true);
           localStorage.removeItem(PAYMENT_STORAGE_KEY);
 
           const cleanUrl = `${window.location.origin}${window.location.pathname}`;
@@ -58,6 +60,16 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
 
     checkPayment();
   }, []);
+
+  useEffect(() => {
+    if (!showSuccessMessage) return;
+
+    const timer = window.setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 2600);
+
+    return () => window.clearTimeout(timer);
+  }, [showSuccessMessage]);
 
   const handleStartPayment = async () => {
     try {
@@ -95,6 +107,14 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
+      {showSuccessMessage && (
+        <div className="pointer-events-none fixed inset-x-0 top-24 z-50 flex justify-center px-6">
+          <div className="rounded-2xl border border-[#EB7F4B]/25 bg-[rgba(235,127,75,0.10)] px-5 py-3 text-sm font-medium text-white shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-md">
+            Betaling gelukt. Je Quickscan is ontgrendeld.
+          </div>
+        </div>
+      )}
+
       <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-6 pt-28 pb-16 sm:pt-32 sm:pb-16">
         <div className="w-full max-w-3xl">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#EB7F4B]">
@@ -214,11 +234,6 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                     {paymentError}
                   </p>
                 )}
-
-                <p className="mt-4 text-center text-sm text-white/38">
-                  Voor testen kun je tijdelijk <span className="text-white/55">?unlock=true</span>{" "}
-                  gebruiken
-                </p>
               </div>
             </>
           ) : (
