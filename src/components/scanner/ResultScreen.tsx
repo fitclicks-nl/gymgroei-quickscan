@@ -58,7 +58,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
 
           window.setTimeout(() => {
             setPaymentStatus("idle");
-          }, 2200);
+          }, 2400);
         } else {
           setPaymentStatus("failed");
           setPaymentError("Betaling niet voltooid of geannuleerd.");
@@ -136,7 +136,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
       </style>
 
       {paymentStatus === "success" && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(10,12,25,0.82)] backdrop-blur-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(10,12,25,0.78)] backdrop-blur-xl">
           <div className="max-w-md px-6 text-center">
             <div className="mb-6 flex justify-center">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EB7F4B] text-base font-bold text-black">
@@ -144,15 +144,17 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
               </div>
             </div>
 
-            <h2 className="text-2xl font-semibold text-white">Betaling gelukt</h2>
+            <h2 className="text-xl font-semibold text-white">
+              Jouw analyse wordt samengesteld…
+            </h2>
 
             <p className="mt-3 leading-6 text-white/70">
-              Je krijgt nu toegang tot je volledige Quickscan. We zetten je complete
-              analyse voor je klaar.
+              Je volledige Quickscan is klaar. Deze analyse is volledig gebaseerd op
+              jouw antwoorden — geen standaard rapport.
             </p>
 
             <div className="mt-6 h-1 w-full overflow-hidden rounded-full bg-white/10">
-              <div className="h-full bg-[#EB7F4B] animate-[progressBar_1.9s_ease-out_forwards]" />
+              <div className="h-full bg-[#EB7F4B] animate-[progressBar_2.0s_ease-out_forwards]" />
             </div>
           </div>
         </div>
@@ -250,6 +252,10 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                   <p className="text-sm text-white/45">Eenmalig</p>
                   <p className="mt-1 text-3xl font-bold text-white">€79</p>
 
+                  <p className="mt-3 text-sm text-white/60">
+                    Geen standaard rapport, maar een analyse gebaseerd op jouw antwoorden.
+                  </p>
+
                   <button
                     type="button"
                     onClick={handleStartPayment}
@@ -290,16 +296,8 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                     </span>
                   </button>
 
-                  <p className="mt-3 text-center text-sm text-white/70">
-                    Direct inzicht + een concreet plan om dit structureel op te lossen.
-                  </p>
-
-                  <p className="mt-1 text-center text-xs text-white/40">
+                  <p className="mt-3 text-center text-xs text-white/40">
                     Eenmalig €79 • Geen abonnement • Direct toegang
-                  </p>
-
-                  <p className="mt-2 text-center text-xs text-white/40">
-                    Gebaseerd op jouw antwoorden — geen standaard rapport.
                   </p>
                 </div>
 
@@ -317,7 +315,11 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
             </>
           ) : (
             <>
-              <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
+              <p className="mt-8 text-sm text-white/50">
+                Deze analyse is gebaseerd op jouw antwoorden — geen standaard rapport.
+              </p>
+
+              <div className="mt-4 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
                 <p className="text-sm font-medium text-[#EB7F4B]">
                   Dit is waar je nu structureel winst laat liggen
                 </p>
