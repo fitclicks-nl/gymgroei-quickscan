@@ -21,48 +21,6 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
 
   const { scores, lowestDomain, summary, priorityTitle, actions, avoid } = result;
 
-  const ctaMap: Record<
-    string,
-    { title: string; description: string; button: string }
-  > = {
-    "Doelgroep & Focus": {
-      title: "Klaar om Doelgroep & Focus echt structureel op te lossen?",
-      description:
-        "Je weet nu dat Doelgroep & Focus je grootste groeikans is. De volgende stap is zorgen dat dit ook daadwerkelijk wordt opgelost in je marketing en opvolging.",
-      button: "Plan een kennismaking over doelgroep →",
-    },
-    Positionering: {
-      title: "Klaar om Positionering echt structureel op te lossen?",
-      description:
-        "Je weet nu dat Positionering je grootste groeikans is. De volgende stap is zorgen dat dit ook daadwerkelijk wordt opgelost in je marketing en opvolging.",
-      button: "Plan een kennismaking over positionering →",
-    },
-    Instroom: {
-      title: "Klaar om Instroom echt structureel op te lossen?",
-      description:
-        "Je weet nu dat Instroom je grootste groeikans is. De volgende stap is zorgen dat dit ook daadwerkelijk wordt opgelost in je marketing en opvolging.",
-      button: "Plan een kennismaking over instroom →",
-    },
-    Conversie: {
-      title: "Klaar om Conversie echt structureel op te lossen?",
-      description:
-        "Je weet nu dat Conversie je grootste groeikans is. De volgende stap is zorgen dat dit ook daadwerkelijk wordt opgelost in je marketing en opvolging.",
-      button: "Plan een kennismaking over conversie →",
-    },
-    Sturing: {
-      title: "Klaar om Sturing echt structureel op te lossen?",
-      description:
-        "Je weet nu dat Sturing je grootste groeikans is. De volgende stap is zorgen dat dit ook daadwerkelijk wordt opgelost in je marketing en opvolging.",
-      button: "Plan een kennismaking over sturing →",
-    },
-  };
-
-  const ctaContent = ctaMap[lowestDomain] || {
-    title: `Klaar om ${lowestDomain} echt structureel op te lossen?`,
-    description: `Je weet nu dat ${lowestDomain} je grootste groeikans is. De volgende stap is zorgen dat dit ook daadwerkelijk wordt opgelost in je marketing en opvolging.`,
-    button: "Plan een kennismaking →",
-  };
-
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const isPaymentReturn = params.get("payment") === "return";
