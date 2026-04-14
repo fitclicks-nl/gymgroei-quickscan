@@ -146,7 +146,7 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
               Je ontvangt je analyse direct na de scan.
             </p>
             <p className="mt-2 text-center text-xs text-white/40">
-              We gebruiken je gegevens alleen om je Quickscan te tonen en toe te sturen. Geen spam.
+              We gebruiken je gegevens alleen om je de Quickscan te tonen en toe te sturen. Geen spam.
             </p>
 
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-white/8 pt-5 text-sm text-white/55">
