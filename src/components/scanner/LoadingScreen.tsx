@@ -58,7 +58,7 @@ const LoadingScreen = ({ gymName, onDone }: LoadingScreenProps) => {
           </p>
 
           <h1 className="text-4xl font-bold leading-[1.05] tracking-[-0.03em] sm:text-5xl md:text-6xl">
-            We analyseren <span className="text-[#EB7F4B]">{gymName}</span>...
+            We analyseren de situatie van <span className="text-[#EB7F4B]">{gymName}</span>…
           </h1>
 
           <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/62 sm:text-lg">
@@ -109,7 +109,7 @@ const LoadingScreen = ({ gymName, onDone }: LoadingScreenProps) => {
           </div>
 
           <p className="mx-auto mt-10 max-w-2xl text-base leading-8 text-white/42">
-            Dit is vaak precies het punt waar gyms ongemerkt resultaat laten liggen.
+            Dit is vaak precies het punt waar gyms onnodig groei laten liggen.
           </p>
         </div>
       </div>
