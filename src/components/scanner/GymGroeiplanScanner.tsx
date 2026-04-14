@@ -60,7 +60,7 @@ const GymGroeiplanScanner = () => {
         setPhase("result");
       }
     } catch {
-      // ignore
+      // ignore broken storage
     }
   }, []);
 
@@ -113,6 +113,18 @@ const GymGroeiplanScanner = () => {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,hsl(232_40%_10%),hsl(230_35%_8%))]">
       <div className="relative z-10">
+        <div className="absolute inset-x-0 top-0 z-30">
+          <div className="mx-auto flex max-w-7xl items-center px-8 pt-6 sm:px-12 sm:pt-8 md:px-16 md:pt-10">
+            <a
+              href="https://fitclicks.nl"
+              className="font-semibold tracking-[-0.02em] text-xl sm:text-2xl md:text-2xl leading-none opacity-95"
+            >
+              <span className="text-white">fit</span>
+              <span className="text-[#EB7F4B]">clicks</span>
+            </a>
+          </div>
+        </div>
+
         {phase === "start" && <StartScreen onStart={handleStart} />}
 
         {phase === "questions" && (
