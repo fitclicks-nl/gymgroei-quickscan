@@ -52,6 +52,9 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
     checkPayment();
   }, []);
 
+  console.log("gymName:", gymName);
+console.log("email:", email);
+
   const handleStartPayment = async () => {
     try {
       setIsStartingPayment(true);
