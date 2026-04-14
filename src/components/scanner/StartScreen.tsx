@@ -35,11 +35,6 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
       <div className="mx-auto flex min-h-screen max-w-5xl items-center justify-center px-6 pt-24 pb-16">
         <div className="w-full max-w-xl text-center">
 
-          {/* FITCLICKS LOGO */}
-          <p className="mb-6 text-xs font-semibold tracking-[0.25em] text-white/40">
-            FITCLICKS
-          </p>
-
           {/* HEADLINE */}
           <h1 className="text-4xl font-bold leading-[1.05] tracking-[-0.03em] sm:text-5xl">
             Ontdek waar jouw gym
