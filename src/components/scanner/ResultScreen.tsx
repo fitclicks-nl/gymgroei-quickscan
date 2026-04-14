@@ -453,46 +453,46 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                 </p>
               </div>
 
-              <div className="mt-12 rounded-3xl border border-white/8 bg-white/[0.03] p-6 text-center shadow-[0_10px_50px_rgba(0,0,0,0.25)]">
-                <h3 className="text-2xl font-semibold">
-                  {ctaContent.title}
-                </h3>
+            <div className="mt-12 rounded-3xl border border-white/8 bg-white/[0.03] p-6 text-center shadow-[0_10px_50px_rgba(0,0,0,0.25)]">
+  <h3 className="text-2xl font-semibold">
+    Klaar om dit ook echt aan te pakken?
+  </h3>
 
-                <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/65">
-                  {ctaContent.description}
-                </p>
+  <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/65">
+    Je weet nu dat <span className="font-medium text-white">{lowestDomain}</span> je grootste groeikans is. De volgende stap is zorgen dat dit ook daadwerkelijk wordt opgelost in je marketing en opvolging.
+  </p>
 
-                <button
-                  onClick={() =>
-                    window.open("https://calendly.com/fitclicks/kickstart", "_blank")
-                  }
-                  className="group relative mt-6 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.01]"
-                >
-                  <span
-                    className="absolute -inset-1 rounded-[1.1rem]"
-                    style={{
-                      background: "rgba(235,127,75,0.25)",
-                      filter: "blur(14px)",
-                      animation: "fitclicksSubtlePulse 2.6s ease-in-out infinite",
-                      zIndex: 0,
-                    }}
-                  />
-                  <span
-                    className="absolute inset-0 rounded-2xl"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
-                      zIndex: 1,
-                    }}
-                  />
-                  <span className="absolute inset-0 z-[2] rounded-2xl bg-white/8 opacity-0 transition group-hover:opacity-100" />
-                  <span className="relative z-10">{ctaContent.button}</span>
-                </button>
+  <button
+    onClick={() =>
+      window.open("https://calendly.com/fitclicks/kickstart", "_blank")
+    }
+    className="group relative mt-6 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.01]"
+  >
+    <span
+      className="absolute -inset-1 rounded-[1.1rem]"
+      style={{
+        background: "rgba(235,127,75,0.25)",
+        filter: "blur(14px)",
+        animation: "fitclicksSubtlePulse 2.6s ease-in-out infinite",
+        zIndex: 0,
+      }}
+    />
+    <span
+      className="absolute inset-0 rounded-2xl"
+      style={{
+        background:
+          "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
+        zIndex: 1,
+      }}
+    />
+    <span className="absolute inset-0 z-[2] rounded-2xl bg-white/8 opacity-0 transition group-hover:opacity-100" />
+    <span className="relative z-10">Plan een groeisessie →</span>
+  </button>
 
-                <p className="mt-3 text-xs text-white/40">
-                  We kijken samen naar jouw situatie en hoe je dit structureel oplost.
-                </p>
-              </div>
+  <p className="mt-3 text-xs text-white/40">
+    We kijken samen naar jouw situatie en hoe je dit structureel oplost.
+  </p>
+</div>
             </>
           )}
         </div>
