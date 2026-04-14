@@ -49,7 +49,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
         } else {
           setPaymentError("De betaling is nog niet afgerond.");
         }
-      } catch (error) {
+      } catch {
         setPaymentError("Er ging iets mis bij het controleren van de betaling.");
       } finally {
         setIsCheckingPayment(false);
@@ -105,12 +105,12 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
             {gymName}, hier laat je nu het meeste resultaat liggen
           </h1>
 
-          <div className="mt-4 max-w-2xl space-y-3 text-base leading-7 text-white/65">
+          <div className="mt-4 space-y-3 text-base leading-7 text-white/65">
             <p>De meeste gyms denken dat ze meer leads nodig hebben.</p>
             <p>In de praktijk verliezen ze vooral resultaat in wat er al binnenkomt.</p>
           </div>
 
-         <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4">
+          <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4">
             <p className="text-base leading-7 text-white/80">
               Als je dit niet oplost, blijf je afhankelijk van{" "}
               <span className="font-medium text-white">losse acties</span>, toeval en
