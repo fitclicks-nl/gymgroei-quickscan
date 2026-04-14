@@ -72,7 +72,7 @@ const QuestionScreen = ({
     <div className="relative min-h-screen overflow-hidden text-white">
       <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-4 pb-6 pt-16 sm:px-6 sm:pb-8 sm:pt-20">
         <div className="w-full max-w-3xl">
-          {/* Desktop: voortgang boven */}
+          {/* Desktop progress */}
           <div className="mb-4 hidden lg:block">
             <ProgressBlock />
           </div>
@@ -97,6 +97,7 @@ const QuestionScreen = ({
               </p>
             </div>
 
+            {/* Answers */}
             <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4">
               {options.map((option) => {
                 const isSelected = selectedValue === option.value;
@@ -138,11 +139,19 @@ const QuestionScreen = ({
               })}
             </div>
 
-            {/* Mobiel + tablet: voortgang onder */}
+            {/* Micro feedback */}
+            {selectedValue !== null && (
+              <p className="mt-3 text-sm text-[#EB7F4B]">
+                Antwoord geselecteerd. Ga door wanneer je klaar bent.
+              </p>
+            )}
+
+            {/* Mobile progress */}
             <div className="mt-5 lg:hidden">
               <ProgressBlock />
             </div>
 
+            {/* Navigation */}
             <div className="mt-5 flex items-center justify-between gap-3 sm:mt-6">
               <button
                 type="button"
@@ -164,7 +173,7 @@ const QuestionScreen = ({
                 className={`inline-flex h-11 items-center justify-center rounded-[1rem] px-5 text-[0.95rem] font-medium transition sm:h-12 sm:px-6 sm:text-base ${
                   selectedValue === null
                     ? "cursor-not-allowed border border-white/6 bg-white/[0.02] text-white/25"
-                    : "border border-[#EB7F4B]/35 bg-[#EB7F4B] text-white shadow-[0_10px_30px_rgba(235,127,75,0.18)] hover:brightness-105"
+                    : "border border-[#EB7F4B]/40 bg-[#EB7F4B] text-white shadow-[0_8px_25px_rgba(235,127,75,0.25)] hover:brightness-105"
                 }`}
               >
                 {questionIndex === totalQuestions - 1
