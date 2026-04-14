@@ -53,15 +53,19 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                   {priorityTitle}
                 </h2>
 
-                <div className="relative mt-4">
+                <div className="relative mt-4 overflow-hidden">
                   <div
                     className="overflow-hidden"
-                    style={{ maxHeight: "210px" }}
+                    style={{ maxHeight: "185px" }}
                   >
                     <p className="leading-7 text-white/75">{summary}</p>
                   </div>
 
-                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 rounded-b-3xl bg-gradient-to-t from-[rgba(28,22,35,1)] via-[rgba(28,22,35,0.82)] to-transparent" />
+                  {/* zachte fade */}
+                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[rgba(28,22,35,0.96)] via-[rgba(28,22,35,0.86)] to-transparent" />
+
+                  {/* extra vaste afsluiter zodat er geen tekst meer doorheen piept */}
+                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-[rgba(28,22,35,0.98)]" />
                 </div>
               </div>
 
