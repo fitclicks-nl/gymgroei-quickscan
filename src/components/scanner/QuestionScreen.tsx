@@ -73,9 +73,9 @@ const QuestionScreen = ({
       <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-4 pb-6 pt-16 sm:px-6 sm:pb-8 sm:pt-20">
         <div className="w-full max-w-3xl">
           {/* Desktop progress */}
-          <div className="mb-4 hidden lg:block">
-            <ProgressBlock />
-          </div>
+          <div className="mb-4 hidden xl:block">
+  <ProgressBlock />
+</div>
 
           <div className="rounded-[2rem] border border-white/8 bg-white/[0.03] px-4 py-5 shadow-[0_10px_50px_rgba(0,0,0,0.22)] backdrop-blur-md sm:px-6 sm:py-6 lg:px-7">
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EB7F4B] sm:mb-4 sm:text-xs">
@@ -147,9 +147,9 @@ const QuestionScreen = ({
             )}
 
             {/* Mobile progress */}
-            <div className="mt-5 lg:hidden">
-              <ProgressBlock />
-            </div>
+            <div className="mt-5 xl:hidden">
+  <ProgressBlock />
+</div>
 
             {/* Navigation */}
             <div className="mt-5 flex items-center justify-between gap-3 sm:mt-6">
