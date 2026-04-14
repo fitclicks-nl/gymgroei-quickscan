@@ -107,6 +107,28 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
+      <style>
+        {`
+          @keyframes fitclicksSubtlePulse {
+            0% {
+              transform: scale(0.985);
+              opacity: 0.32;
+              box-shadow: 0 0 0 rgba(235,127,75,0);
+            }
+            50% {
+              transform: scale(1.015);
+              opacity: 0.62;
+              box-shadow: 0 0 24px rgba(235,127,75,0.22);
+            }
+            100% {
+              transform: scale(0.985);
+              opacity: 0.32;
+              box-shadow: 0 0 0 rgba(235,127,75,0);
+            }
+          }
+        `}
+      </style>
+
       {showSuccessMessage && (
         <div className="pointer-events-none fixed inset-x-0 top-24 z-50 flex justify-center px-6">
           <div className="rounded-2xl border border-[#EB7F4B]/25 bg-[rgba(235,127,75,0.10)] px-5 py-3 text-sm font-medium text-white shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-md">
@@ -191,7 +213,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                   </div>
                 </div>
 
-                <div className="mt-6 rounded-2xl border border-white/8 bg-black/10 px-4 py-4 text-center">
+                <div className="mt-6 rounded-2xl border border-white/8 bg-black/10 px-4 py-5 text-center">
                   <p className="text-sm text-white/45">Eenmalig</p>
                   <p className="mt-1 text-3xl font-bold text-white">€49</p>
 
@@ -202,24 +224,31 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                     className={`group relative mt-4 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 ${
                       isStartingPayment || isCheckingPayment
                         ? "cursor-not-allowed opacity-70"
-                        : "hover:scale-[1.02]"
+                        : "hover:scale-[1.01]"
                     }`}
                   >
                     <span
-                      className="absolute -inset-1 rounded-[1.2rem]"
+                      className="absolute -inset-1 rounded-[1.1rem]"
                       style={{
-                        background: "rgba(235,127,75,0.22)",
-                        filter: "blur(16px)",
-                        opacity: 0.6,
+                        background: "rgba(235,127,75,0.26)",
+                        filter: "blur(14px)",
+                        animation:
+                          isStartingPayment || isCheckingPayment
+                            ? "none"
+                            : "fitclicksSubtlePulse 2.4s ease-in-out infinite",
+                        zIndex: 0,
                       }}
                     />
                     <span
-                      className="relative inline-flex h-full w-full items-center justify-center rounded-2xl px-7"
+                      className="absolute inset-0 rounded-2xl"
                       style={{
                         background:
                           "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
+                        zIndex: 1,
                       }}
-                    >
+                    />
+                    <span className="absolute inset-0 z-[2] rounded-2xl bg-white/8 opacity-0 transition group-hover:opacity-100" />
+                    <span className="relative z-10">
                       {isStartingPayment
                         ? "Betaling starten..."
                         : isCheckingPayment
@@ -351,13 +380,6 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
           )}
         </div>
       </div>
-
-      <button
-        onClick={() => setIsUnlocked(!isUnlocked)}
-        className="fixed bottom-4 right-4 z-50 rounded-xl bg-white/5 px-4 py-2 text-xs text-white/60 hover:bg-white/10 hover:text-white"
-      >
-        Toggle unlock
-      </button>
     </div>
   );
 };
