@@ -40,22 +40,26 @@ const QuestionScreen = ({
     <div className="relative min-h-screen overflow-hidden text-white">
       <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-4 pb-6 pt-6 sm:px-6 sm:pb-8 sm:pt-10">
         <div className="w-full max-w-3xl">
-          {/* Sticky progress */}
-          <div className="sticky top-3 z-20 mb-4 rounded-2xl border border-white/6 bg-[rgba(9,12,30,0.72)] px-3 py-3 backdrop-blur-md sm:top-4 sm:mb-5 sm:px-4">
-            <div className="mb-2 flex items-center justify-between text-sm text-white/55">
-              <span>
-                Vraag {questionIndex + 1} van {totalQuestions}
-              </span>
-              <span>{progress}%</span>
-            </div>
+          {/* Sticky header */}
+<div className="fixed inset-x-0 top-0 z-40 px-4 pt-4">
+  <div className="mx-auto max-w-5xl rounded-2xl border border-white/6 bg-[rgba(9,12,30,0.85)] px-4 py-3 backdrop-blur-md">
+    
+    {/* Logo + progress */}
+    <div className="flex items-center justify-between mb-2">
+      <span className="text-sm font-medium text-white/80">
+        Vraag {questionIndex + 1} van {totalQuestions}
+      </span>
+      <span className="text-sm text-white/50">{progress}%</span>
+    </div>
 
-            <div className="h-2 w-full overflow-hidden rounded-full bg-white/8">
-              <div
-                className="h-full rounded-full bg-[#EB7F4B] transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          </div>
+    <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+      <div
+        className="h-full rounded-full bg-[#EB7F4B] transition-all duration-300"
+        style={{ width: `${progress}%` }}
+      />
+    </div>
+  </div>
+</div>
 
           {/* Card */}
           <div className="rounded-[2rem] border border-white/8 bg-white/[0.03] px-4 py-5 shadow-[0_10px_50px_rgba(0,0,0,0.22)] backdrop-blur-md sm:px-7 sm:py-6">
