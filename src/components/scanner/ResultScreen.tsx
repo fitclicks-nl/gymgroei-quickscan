@@ -2,18 +2,86 @@ import { useEffect, useState } from "react";
 
 type ResultScreenProps = {
   gymName: string;
+  email: string;
   result: any;
 };
 
-const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
+const WORKER_BASE_URL = "https://quickscan-api.sweet-shadow-aa9c.workers.dev";
+
+const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [isCheckingPayment, setIsCheckingPayment] = useState(false);
+  const [isStartingPayment, setIsStartingPayment] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get("unlock") === "true") {
-      setIsUnlocked(true);
-    }
+    const paymentId = params.get("paymentId");
+    const isPaymentReturn = params.get("payment") === "return";
+
+    if (!paymentId || !isPaymentReturn) return;
+
+    const checkPayment = async () => {
+      try {
+        setIsCheckingPayment(true);
+        setPaymentError("");
+
+        const res = await fetch(
+          `${WORKER_BASE_URL}/payment-status?paymentId=${encodeURIComponent(
+            paymentId
+          )}`
+        );
+
+        const data = await res.json();
+
+        if (data.paid) {
+          setIsUnlocked(true);
+
+          const cleanUrl = `${window.location.origin}${window.location.pathname}`;
+          window.history.replaceState({}, "", cleanUrl);
+        } else {
+          setPaymentError("De betaling is nog niet afgerond.");
+        }
+      } catch (error) {
+        setPaymentError("Er ging iets mis bij het controleren van de betaling.");
+      } finally {
+        setIsCheckingPayment(false);
+      }
+    };
+
+    checkPayment();
   }, []);
+
+  const handleStartPayment = async () => {
+    try {
+      setIsStartingPayment(true);
+      setPaymentError("");
+
+      const res = await fetch(`${WORKER_BASE_URL}/create-payment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          gymName,
+          email,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.checkoutUrl) {
+        throw new Error(data?.error || "Betaling starten mislukt.");
+      }
+
+      window.location.href = data.checkoutUrl;
+    } catch (error: any) {
+      setPaymentError(
+        error?.message || "Er ging iets mis bij het starten van de betaling."
+      );
+      setIsStartingPayment(false);
+    }
+  };
 
   const { scores, lowestDomain, summary, priorityTitle, actions, avoid } = result;
 
@@ -101,7 +169,13 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
 
                   <button
                     type="button"
-                    className="group relative mt-4 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.02]"
+                    onClick={handleStartPayment}
+                    disabled={isStartingPayment || isCheckingPayment}
+                    className={`group relative mt-4 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 ${
+                      isStartingPayment || isCheckingPayment
+                        ? "cursor-not-allowed opacity-70"
+                        : "hover:scale-[1.02]"
+                    }`}
                   >
                     <span
                       className="absolute -inset-1 rounded-[1.2rem]"
@@ -118,10 +192,20 @@ const ResultScreen = ({ gymName, result }: ResultScreenProps) => {
                           "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
                       }}
                     >
-                      Ontgrendel nu →
+                      {isStartingPayment
+                        ? "Betaling starten..."
+                        : isCheckingPayment
+                        ? "Betaling controleren..."
+                        : "Ontgrendel nu →"}
                     </span>
                   </button>
                 </div>
+
+                {paymentError && (
+                  <p className="mt-4 text-center text-sm text-red-300">
+                    {paymentError}
+                  </p>
+                )}
 
                 <p className="mt-4 text-center text-sm text-white/38">
                   Voor testen kun je tijdelijk <span className="text-white/55">?unlock=true</span>{" "}
