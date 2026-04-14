@@ -75,7 +75,11 @@ const GymGroeiplanScanner = () => {
         )}
 
         {phase === "result" && result && (
-          <ResultScreen gymName={gymName} result={result} />
+          <ResultScreen
+            gymName={gymName}
+            email={email}
+            result={result}
+          />
         )}
       </div>
     </div>
