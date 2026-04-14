@@ -66,7 +66,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
 
     const timer = window.setTimeout(() => {
       setShowSuccessMessage(false);
-    }, 2600);
+    }, 4800);
 
     return () => window.clearTimeout(timer);
   }, [showSuccessMessage]);
@@ -130,12 +130,39 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
       </style>
 
       {showSuccessMessage && (
-        <div className="pointer-events-none fixed inset-x-0 top-24 z-50 flex justify-center px-6">
-          <div className="rounded-2xl border border-[#EB7F4B]/25 bg-[rgba(235,127,75,0.10)] px-5 py-3 text-sm font-medium text-white shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-md">
-            Betaling gelukt. Je Quickscan is ontgrendeld.
-          </div>
-        </div>
-      )}
+  <div className="pointer-events-none fixed inset-x-0 top-28 z-50 flex justify-center px-6 animate-fadeIn">
+    <div className="flex items-center gap-3 rounded-2xl border border-[#EB7F4B]/30 bg-[rgba(235,127,75,0.12)] px-6 py-4 text-sm font-medium text-white shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-md">
+
+      {/* ICON */}
+      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#EB7F4B] text-black text-xs font-bold">
+        ✓
+      </div>
+
+      {/* TEXT */}
+      <span>
+        Betaling gelukt. Je Quickscan is nu volledig ontgrendeld.
+      </span>
+    </div>
+  </div>
+)}@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out;
+}
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out;
+}
 
       <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-6 pt-28 pb-16 sm:pt-32 sm:pb-16">
         <div className="w-full max-w-3xl">
