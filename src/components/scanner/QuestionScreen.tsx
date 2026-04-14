@@ -36,42 +36,57 @@ const QuestionScreen = ({
     }
   }, [value, questionIndex]);
 
+  const handleNext = () => {
+    if (selectedValue === null) return;
+
+    const selected = options.find((o) => o.value === selectedValue);
+
+    trackEvent("quickscan_next_clicked", {
+      question_index: questionIndex + 1,
+      answer_value: selectedValue,
+      answer_label: selected?.label,
+    });
+
+    onNext(selectedValue);
+  };
+
+  const ProgressBlock = () => (
+    <div>
+      <div className="mb-2 flex items-center justify-between text-sm text-white/50">
+        <span>
+          Vraag {questionIndex + 1} van {totalQuestions}
+        </span>
+        <span>{progress}%</span>
+      </div>
+
+      <div className="h-2 w-full overflow-hidden rounded-full bg-white/8">
+        <div
+          className="h-full rounded-full bg-[#EB7F4B] transition-all duration-300"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
-      <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-4 pb-6 pt-6 sm:px-6 sm:pb-8 sm:pt-10">
+      <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-4 pb-6 pt-16 sm:px-6 sm:pb-8 sm:pt-20">
         <div className="w-full max-w-3xl">
-          {/* Sticky header */}
-<div className="fixed inset-x-0 top-0 z-40 px-4 pt-4">
-  <div className="mx-auto max-w-5xl rounded-2xl border border-white/6 bg-[rgba(9,12,30,0.85)] px-4 py-3 backdrop-blur-md">
-    
-    {/* Logo + progress */}
-    <div className="flex items-center justify-between mb-2">
-      <span className="text-sm font-medium text-white/80">
-        Vraag {questionIndex + 1} van {totalQuestions}
-      </span>
-      <span className="text-sm text-white/50">{progress}%</span>
-    </div>
+          {/* Desktop: voortgang boven */}
+          <div className="mb-4 hidden lg:block">
+            <ProgressBlock />
+          </div>
 
-    <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-      <div
-        className="h-full rounded-full bg-[#EB7F4B] transition-all duration-300"
-        style={{ width: `${progress}%` }}
-      />
-    </div>
-  </div>
-</div>
-
-          {/* Card */}
-          <div className="rounded-[2rem] border border-white/8 bg-white/[0.03] px-4 py-5 shadow-[0_10px_50px_rgba(0,0,0,0.22)] backdrop-blur-md sm:px-7 sm:py-6">
+          <div className="rounded-[2rem] border border-white/8 bg-white/[0.03] px-4 py-5 shadow-[0_10px_50px_rgba(0,0,0,0.22)] backdrop-blur-md sm:px-6 sm:py-6 lg:px-7">
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EB7F4B] sm:mb-4 sm:text-xs">
               Gymgroei Quickscan
             </p>
 
-            <h1 className="text-[1.85rem] font-bold leading-[1.06] tracking-[-0.03em] sm:text-[2.75rem] sm:leading-[1.02]">
+            <h1 className="text-[1.9rem] font-bold leading-[1.04] tracking-[-0.03em] sm:text-[2.2rem] sm:leading-[1.02] lg:text-[2.75rem]">
               {question}
             </h1>
 
-            <p className="mt-3 text-[1rem] leading-8 text-white/60 sm:mt-4 sm:text-[1.2rem] sm:leading-[1.45]">
+            <p className="mt-3 text-[1rem] leading-8 text-white/60 sm:mt-4 sm:text-[1.12rem] sm:leading-[1.5] lg:text-[1.2rem]">
               Hoe herkenbaar is deze situatie voor jouw gym?
             </p>
 
@@ -82,7 +97,6 @@ const QuestionScreen = ({
               </p>
             </div>
 
-            {/* Answers */}
             <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4">
               {options.map((option) => {
                 const isSelected = selectedValue === option.value;
@@ -100,7 +114,7 @@ const QuestionScreen = ({
                         answer_label: option.label,
                       });
                     }}
-                    className={`flex min-h-[72px] w-full items-center justify-between rounded-[1.35rem] border px-4 py-3 text-left transition-all duration-200 sm:min-h-[80px] sm:px-5 sm:py-4 ${
+                    className={`flex min-h-[72px] w-full items-center justify-between rounded-[1.35rem] border px-4 py-3 text-left transition-all duration-200 sm:min-h-[78px] sm:px-5 sm:py-4 ${
                       isSelected
                         ? "border-[#EB7F4B]/45 bg-[#EB7F4B]/8 shadow-[0_0_0_1px_rgba(235,127,75,0.10)]"
                         : "border-white/8 bg-white/[0.02] hover:border-white/12 hover:bg-white/[0.03]"
@@ -124,7 +138,11 @@ const QuestionScreen = ({
               })}
             </div>
 
-            {/* Navigation */}
+            {/* Mobiel + tablet: voortgang onder */}
+            <div className="mt-5 lg:hidden">
+              <ProgressBlock />
+            </div>
+
             <div className="mt-5 flex items-center justify-between gap-3 sm:mt-6">
               <button
                 type="button"
@@ -142,19 +160,7 @@ const QuestionScreen = ({
               <button
                 type="button"
                 disabled={selectedValue === null}
-                onClick={() => {
-                  if (selectedValue !== null) {
-                    const selected = options.find((o) => o.value === selectedValue);
-
-                    trackEvent("quickscan_next_clicked", {
-                      question_index: questionIndex + 1,
-                      answer_value: selectedValue,
-                      answer_label: selected?.label,
-                    });
-
-                    onNext(selectedValue);
-                  }
-                }}
+                onClick={handleNext}
                 className={`inline-flex h-11 items-center justify-center rounded-[1rem] px-5 text-[0.95rem] font-medium transition sm:h-12 sm:px-6 sm:text-base ${
                   selectedValue === null
                     ? "cursor-not-allowed border border-white/6 bg-white/[0.02] text-white/25"
