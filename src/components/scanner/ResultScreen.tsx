@@ -165,12 +165,15 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
           </p>
 
           <h1 className="text-3xl font-bold leading-[1.08] tracking-[-0.03em] sm:text-4xl md:text-5xl">
-            {gymName}, hier laat je nu het meeste resultaat liggen
+            {gymName}, hier loopt jouw gym nu structureel groei mis
           </h1>
 
           <div className="mt-4 space-y-3 text-base leading-7 text-white/65">
-            <p>De meeste gyms denken dat ze meer leads nodig hebben.</p>
-            <p>In de praktijk verliezen ze vooral resultaat in wat er al binnenkomt.</p>
+            <p>De meeste gyms denken dat ze vooral meer leads nodig hebben.</p>
+            <p>
+              In de praktijk gaat rendement vaak verloren in wat er al binnenkomt en
+              hoe dat wordt opgevolgd.
+            </p>
           </div>
 
           <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4">
@@ -192,31 +195,31 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                   {priorityTitle}
                 </h2>
 
-                <div className="relative mt-4 overflow-hidden">
-                  <div
-                    className="overflow-hidden"
-                    style={{ maxHeight: "170px" }}
-                  >
-                    <p className="leading-7 text-white/75">{summary}</p>
-                  </div>
-
-                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[rgba(28,22,35,0.98)] via-[rgba(28,22,35,0.9)] to-transparent" />
-                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-12 bg-[rgba(28,22,35,0.99)]" />
+                <div className="mt-4 space-y-4">
+                  <p className="leading-7 text-white/78">
+                    Op basis van je antwoorden zien we dat hier je grootste groeikans
+                    ligt.
+                  </p>
+                  <p className="leading-7 text-white/65">
+                    Wat hier precies misgaat — en hoe je dit oplost — zie je in je
+                    volledige Quickscan.
+                  </p>
                 </div>
               </div>
 
               <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-[0_16px_50px_rgba(0,0,0,0.22)]">
                 <p className="text-sm font-medium text-[#EB7F4B]">
-                  Ontgrendel jouw volledige Quickscan
+                  Ontvang jouw volledige Quickscan
                 </p>
 
                 <h3 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
-                  Zie precies wat je de komende 30 dagen moet doen
+                  Geen extra inzichten, maar een concreet plan voor jouw gym
                 </h3>
 
                 <p className="mt-4 leading-7 text-white/68">
-                  Je volledige Quickscan laat niet alleen zien waar het schuurt,
-                  maar vooral wat je als eerste moet aanpakken.
+                  Je volledige Quickscan laat zien waar het echt misloopt, wat je als
+                  eerste moet aanpassen en waar je nu waarschijnlijk tijd of resultaat
+                  laat liggen.
                 </p>
 
                 <div className="mt-5 space-y-3 text-white/74">
@@ -232,11 +235,20 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                     <span className="mt-1 text-[#EB7F4B]">•</span>
                     <span>Je complete overzicht per domein</span>
                   </div>
+                  <div className="flex items-start gap-3">
+                    <span className="mt-1 text-[#EB7F4B]">•</span>
+                    <span>Direct toepasbaar voor de komende 30 dagen</span>
+                  </div>
                 </div>
+
+                <p className="mt-5 text-sm leading-6 text-white/55">
+                  Vergelijkbaar met wat je normaal in een strategiegesprek zou krijgen
+                  — maar dan direct toepasbaar.
+                </p>
 
                 <div className="mt-6 rounded-2xl border border-white/8 bg-black/10 px-4 py-5 text-center">
                   <p className="text-sm text-white/45">Eenmalig</p>
-                  <p className="mt-1 text-3xl font-bold text-white">€49</p>
+                  <p className="mt-1 text-3xl font-bold text-white">€79</p>
 
                   <button
                     type="button"
@@ -274,16 +286,20 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                         ? "Betaling starten..."
                         : isCheckingPayment
                         ? "Betaling controleren..."
-                        : "Ontgrendel nu →"}
+                        : "Bekijk mijn volledige Quickscan →"}
                     </span>
                   </button>
 
                   <p className="mt-3 text-center text-sm text-white/70">
-                    Direct inzicht in je grootste groeipunt + wat je de komende 30 dagen moet doen.
+                    Direct inzicht + een concreet plan om dit structureel op te lossen.
                   </p>
 
                   <p className="mt-1 text-center text-xs text-white/40">
-                    Eenmalig • Geen abonnement • Direct beschikbaar
+                    Eenmalig €79 • Geen abonnement • Direct toegang
+                  </p>
+
+                  <p className="mt-2 text-center text-xs text-white/40">
+                    Gebaseerd op jouw antwoorden — geen standaard rapport.
                   </p>
                 </div>
 
@@ -411,46 +427,46 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
                 </p>
               </div>
 
-            <div className="mt-12 rounded-3xl border border-white/8 bg-white/[0.03] p-6 text-center shadow-[0_10px_50px_rgba(0,0,0,0.25)]">
-  <h3 className="text-2xl font-semibold">
-    Klaar om dit ook echt aan te pakken?
-  </h3>
+              <div className="mt-12 rounded-3xl border border-white/8 bg-white/[0.03] p-6 text-center shadow-[0_10px_50px_rgba(0,0,0,0.25)]">
+                <h3 className="text-2xl font-semibold">
+                  Klaar om dit ook echt aan te pakken?
+                </h3>
 
-  <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/65">
-    Je weet nu dat <span className="font-medium text-white">{lowestDomain}</span> je grootste groeikans is. Maar inzicht alleen verandert niets — de volgende stap is zorgen dat dit ook echt wordt opgelost in je marketing en opvolging.
-  </p>
+                <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/65">
+                  Je weet nu dat <span className="font-medium text-white">{lowestDomain}</span> je grootste groeikans is. Maar inzicht alleen verandert niets — de volgende stap is zorgen dat dit ook echt wordt opgelost in je marketing en opvolging.
+                </p>
 
-  <button
-    onClick={() =>
-      window.open("https://calendly.com/fitclicks/kickstart", "_blank")
-    }
-    className="group relative mt-6 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.01]"
-  >
-    <span
-      className="absolute -inset-1 rounded-[1.1rem]"
-      style={{
-        background: "rgba(235,127,75,0.25)",
-        filter: "blur(14px)",
-        animation: "fitclicksSubtlePulse 2.6s ease-in-out infinite",
-        zIndex: 0,
-      }}
-    />
-    <span
-      className="absolute inset-0 rounded-2xl"
-      style={{
-        background:
-          "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
-        zIndex: 1,
-      }}
-    />
-    <span className="absolute inset-0 z-[2] rounded-2xl bg-white/8 opacity-0 transition group-hover:opacity-100" />
-    <span className="relative z-10">Plan een groeisessie →</span>
-  </button>
+                <button
+                  onClick={() =>
+                    window.open("https://calendly.com/fitclicks/kickstart", "_blank")
+                  }
+                  className="group relative mt-6 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 hover:scale-[1.01]"
+                >
+                  <span
+                    className="absolute -inset-1 rounded-[1.1rem]"
+                    style={{
+                      background: "rgba(235,127,75,0.25)",
+                      filter: "blur(14px)",
+                      animation: "fitclicksSubtlePulse 2.6s ease-in-out infinite",
+                      zIndex: 0,
+                    }}
+                  />
+                  <span
+                    className="absolute inset-0 rounded-2xl"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, hsl(18 80% 60%), hsl(24 85% 55%))",
+                      zIndex: 1,
+                    }}
+                  />
+                  <span className="absolute inset-0 z-[2] rounded-2xl bg-white/8 opacity-0 transition group-hover:opacity-100" />
+                  <span className="relative z-10">Plan een groeisessie →</span>
+                </button>
 
-  <p className="mt-3 text-xs text-white/40">
-    We kijken samen naar jouw situatie en hoe je dit structureel oplost.
-  </p>
-</div>
+                <p className="mt-3 text-xs text-white/40">
+                  We kijken samen naar jouw situatie en hoe je dit structureel oplost.
+                </p>
+              </div>
             </>
           )}
         </div>
