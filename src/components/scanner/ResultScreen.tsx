@@ -110,7 +110,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
             <p>In de praktijk verliezen ze vooral resultaat in wat er al binnenkomt.</p>
           </div>
 
-          <div className="mt-6 max-w-2xl rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4">
+         <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4">
             <p className="text-base leading-7 text-white/80">
               Als je dit niet oplost, blijf je afhankelijk van{" "}
               <span className="font-medium text-white">losse acties</span>, toeval en
