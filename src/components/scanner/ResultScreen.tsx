@@ -7,6 +7,7 @@ type ResultScreenProps = {
 };
 
 const WORKER_BASE_URL = "https://quickscan-api.sweet-shadow-aa9c.workers.dev";
+const PAYMENT_STORAGE_KEY = "quickscan_pending_payment";
 
 const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
   const [isUnlocked, setIsUnlocked] = useState(false);
@@ -16,10 +17,15 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const paymentId = params.get("paymentId");
     const isPaymentReturn = params.get("payment") === "return";
 
-    if (!paymentId || !isPaymentReturn) return;
+    if (!isPaymentReturn) return;
+
+    const storedPaymentId = localStorage.getItem(PAYMENT_STORAGE_KEY);
+    if (!storedPaymentId) {
+      setPaymentError("Geen betaling gevonden om te controleren.");
+      return;
+    }
 
     const checkPayment = async () => {
       try {
@@ -28,7 +34,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
 
         const res = await fetch(
           `${WORKER_BASE_URL}/payment-status?paymentId=${encodeURIComponent(
-            paymentId
+            storedPaymentId
           )}`
         );
 
@@ -36,6 +42,7 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
 
         if (data.paid) {
           setIsUnlocked(true);
+          localStorage.removeItem(PAYMENT_STORAGE_KEY);
 
           const cleanUrl = `${window.location.origin}${window.location.pathname}`;
           window.history.replaceState({}, "", cleanUrl);
@@ -52,9 +59,6 @@ const ResultScreen = ({ gymName, email, result }: ResultScreenProps) => {
     checkPayment();
   }, []);
 
-  console.log("gymName:", gymName);
-console.log("email:", email);
-
   const handleStartPayment = async () => {
     try {
       setIsStartingPayment(true);
@@ -66,17 +70,18 @@ console.log("email:", email);
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          gymName,
-          email,
+          gymName: gymName?.trim(),
+          email: email?.trim(),
         }),
       });
 
       const data = await res.json();
 
-      if (!res.ok || !data.checkoutUrl) {
+      if (!res.ok || !data.checkoutUrl || !data.paymentId) {
         throw new Error(data?.error || "Betaling starten mislukt.");
       }
 
+      localStorage.setItem(PAYMENT_STORAGE_KEY, data.paymentId);
       window.location.href = data.checkoutUrl;
     } catch (error: any) {
       setPaymentError(
