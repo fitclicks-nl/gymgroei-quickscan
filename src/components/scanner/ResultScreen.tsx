@@ -28,7 +28,6 @@ const ResultScreen = ({
   const { scores, lowestDomain, summary, priorityTitle, actions, avoid } =
     result;
 
-  // Herstel unlock-status uit storage
   useEffect(() => {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
@@ -43,7 +42,6 @@ const ResultScreen = ({
     }
   }, []);
 
-  // Check betaling bij return van Mollie
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const isPaymentReturn = params.get("payment") === "return";
@@ -76,7 +74,6 @@ const ResultScreen = ({
           setPaymentStatus("success");
           localStorage.removeItem(PAYMENT_STORAGE_KEY);
 
-          // unlock-status ook opslaan in scanner storage
           const raw = localStorage.getItem(STORAGE_KEY);
           if (raw) {
             try {
@@ -146,6 +143,10 @@ const ResultScreen = ({
     }
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
       <style>
@@ -172,11 +173,81 @@ const ResultScreen = ({
             from { width: 0% }
             to { width: 100% }
           }
+
+          @media print {
+            html, body {
+              background: #ffffff !important;
+              color: #111111 !important;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+
+            body * {
+              visibility: hidden;
+            }
+
+            .print-area,
+            .print-area * {
+              visibility: visible;
+            }
+
+            .print-area {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              max-width: 100%;
+              padding: 0;
+              margin: 0;
+            }
+
+            .no-print {
+              display: none !important;
+            }
+
+            .print-card {
+              background: #ffffff !important;
+              border: 1px solid #e5e7eb !important;
+              box-shadow: none !important;
+              color: #111111 !important;
+              break-inside: avoid;
+              page-break-inside: avoid;
+            }
+
+            .print-soft-card {
+              background: #fafafa !important;
+              border: 1px solid #e5e7eb !important;
+              box-shadow: none !important;
+              color: #111111 !important;
+              break-inside: avoid;
+              page-break-inside: avoid;
+            }
+
+            .print-text-dark {
+              color: #111111 !important;
+            }
+
+            .print-text-muted {
+              color: #4b5563 !important;
+            }
+
+            .print-accent {
+              color: #c65f2e !important;
+            }
+
+            .print-bar-bg {
+              background: #e5e7eb !important;
+            }
+
+            .print-bar-fill {
+              background: #c65f2e !important;
+            }
+          }
         `}
       </style>
 
       {paymentStatus === "success" && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(10,12,25,0.78)] backdrop-blur-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(10,12,25,0.78)] backdrop-blur-xl no-print">
           <div className="max-w-md px-6 text-center">
             <div className="mb-6 flex justify-center">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EB7F4B] text-base font-bold text-black">
@@ -200,17 +271,29 @@ const ResultScreen = ({
         </div>
       )}
 
-      <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-6 pb-16 pt-28 sm:pb-16 sm:pt-32">
+      <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-6 pb-16 pt-28 sm:pb-16 sm:pt-32 print-area">
         <div className="w-full max-w-3xl">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#EB7F4B]">
+          <div className="mb-8 hidden print:block">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] print-accent">
+              Fitclicks Quickscan
+            </p>
+            <h1 className="mt-3 text-3xl font-bold print-text-dark">
+              Quickscan rapport voor {gymName}
+            </h1>
+            <p className="mt-2 text-sm print-text-muted">
+              Analyse gebaseerd op de ingevulde antwoorden.
+            </p>
+          </div>
+
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#EB7F4B] print-accent">
             Jouw Quickscan resultaat
           </p>
 
-          <h1 className="text-3xl font-bold leading-[1.08] tracking-[-0.03em] sm:text-4xl md:text-5xl">
+          <h1 className="text-3xl font-bold leading-[1.08] tracking-[-0.03em] sm:text-4xl md:text-5xl print-text-dark">
             {gymName}, hier loopt jouw gym nu structureel groei mis
           </h1>
 
-          <div className="mt-4 space-y-3 text-base leading-7 text-white/65">
+          <div className="mt-4 space-y-3 text-base leading-7 text-white/65 print-text-muted">
             <p>De meeste gyms denken dat ze vooral meer leads nodig hebben.</p>
             <p>
               In de praktijk gaat rendement vaak verloren in wat er al binnenkomt
@@ -218,81 +301,87 @@ const ResultScreen = ({
             </p>
           </div>
 
-          <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4">
-            <p className="text-base leading-7 text-white/80">
+          <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4 print-card">
+            <p className="text-base leading-7 text-white/80 print-text-dark">
               Als je dit niet oplost, blijf je afhankelijk van{" "}
-              <span className="font-medium text-white">losse acties</span>,
-              toeval en ruis in je marketing.
+              <span className="font-medium text-white print-text-dark">
+                losse acties
+              </span>
+              , toeval en ruis in je marketing.
             </p>
           </div>
 
           {!isUnlocked ? (
             <>
-              <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-                <p className="text-sm font-medium text-[#EB7F4B]">
+              <div className="mt-8 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)] print-card">
+                <p className="text-sm font-medium text-[#EB7F4B] print-accent">
                   Preview van jouw grootste aandachtspunt
                 </p>
 
-                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
+                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em] print-text-dark">
                   {priorityTitle}
                 </h2>
 
                 <div className="mt-4 space-y-4">
-                  <p className="leading-7 text-white/78">
+                  <p className="leading-7 text-white/78 print-text-dark">
                     Op basis van je antwoorden zien we dat hier je grootste
                     groeikans ligt.
                   </p>
-                  <p className="leading-7 text-white/65">
+                  <p className="leading-7 text-white/65 print-text-muted">
                     Wat hier precies misgaat en hoe je dit oplost, zie je in je
                     volledige Quickscan.
                   </p>
                 </div>
               </div>
 
-              <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-[0_16px_50px_rgba(0,0,0,0.22)]">
-                <p className="text-sm font-medium text-[#EB7F4B]">
+              <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-[0_16px_50px_rgba(0,0,0,0.22)] print-card">
+                <p className="text-sm font-medium text-[#EB7F4B] print-accent">
                   Ontvang jouw volledige Quickscan
                 </p>
 
-                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
+                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.02em] print-text-dark">
                   Geen extra inzichten, maar een concreet plan voor jouw gym
                 </h3>
 
-                <p className="mt-4 leading-7 text-white/68">
+                <p className="mt-4 leading-7 text-white/68 print-text-muted">
                   Je volledige Quickscan laat zien waar het echt misloopt, wat je
                   als eerste moet aanpassen en waar je nu waarschijnlijk tijd of
                   resultaat laat liggen.
                 </p>
 
-                <div className="mt-5 space-y-3 text-white/74">
+                <div className="mt-5 space-y-3 text-white/74 print-text-dark">
                   <div className="flex items-start gap-3">
-                    <span className="mt-1 text-[#EB7F4B]">•</span>
+                    <span className="mt-1 text-[#EB7F4B] print-accent">•</span>
                     <span>Je 3 belangrijkste acties in de juiste volgorde</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="mt-1 text-[#EB7F4B]">•</span>
+                    <span className="mt-1 text-[#EB7F4B] print-accent">•</span>
                     <span>Wat je nu beter niet kunt doen</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="mt-1 text-[#EB7F4B]">•</span>
+                    <span className="mt-1 text-[#EB7F4B] print-accent">•</span>
                     <span>Je complete overzicht per domein</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="mt-1 text-[#EB7F4B]">•</span>
+                    <span className="mt-1 text-[#EB7F4B] print-accent">•</span>
                     <span>Direct toepasbaar voor de komende 30 dagen</span>
                   </div>
                 </div>
 
-                <p className="mt-5 text-sm leading-6 text-white/55">
+                <p className="mt-5 text-sm leading-6 text-white/55 print-text-muted">
                   Vergelijkbaar met wat je normaal in een strategiegesprek zou
                   krijgen, maar dan direct toepasbaar.
                 </p>
 
-                <div className="mt-6 rounded-2xl border border-white/8 bg-black/10 px-4 py-5 text-center">
-                  <p className="text-sm text-white/45">Eenmalig</p>
-                  <p className="mt-1 text-3xl font-bold text-white">€79</p>
+                <div className="mt-6 rounded-2xl border border-white/8 bg-black/10 px-4 py-5 text-center print-soft-card">
+                  <p className="text-sm text-white/45 print-text-muted">
+                    Eenmalig
+                  </p>
+                  <p className="mt-1 text-3xl font-bold text-white print-text-dark">
+                    €79
+                  </p>
 
-                  <p className="mt-3 text-sm text-white/60">
+                  <p className="mt-3 text-sm text-white/60 print-text-muted">
                     Geen standaard rapport, maar een analyse gebaseerd op jouw
                     antwoorden.
                   </p>
@@ -301,7 +390,7 @@ const ResultScreen = ({
                     type="button"
                     onClick={handleStartPayment}
                     disabled={isStartingPayment || isCheckingPayment}
-                    className={`group relative mt-4 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 ${
+                    className={`group relative mt-4 inline-flex h-14 items-center justify-center overflow-visible rounded-2xl px-7 text-base font-semibold text-white transition duration-300 no-print ${
                       isStartingPayment || isCheckingPayment
                         ? "cursor-not-allowed opacity-70"
                         : "hover:scale-[1.01]"
@@ -337,13 +426,13 @@ const ResultScreen = ({
                     </span>
                   </button>
 
-                  <p className="mt-3 text-center text-xs text-white/40">
+                  <p className="mt-3 text-center text-xs text-white/40 print-text-muted">
                     Eenmalig €79 • Geen abonnement • Direct toegang
                   </p>
                 </div>
 
                 {(paymentStatus === "failed" || paymentError) && (
-                  <div className="mt-4 rounded-2xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-center">
+                  <div className="mt-4 rounded-2xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-center no-print">
                     <p className="text-sm text-red-300">
                       {paymentError || "Betaling niet voltooid of geannuleerd."}
                     </p>
@@ -356,39 +445,41 @@ const ResultScreen = ({
             </>
           ) : (
             <>
-              <p className="mt-8 text-sm text-white/50">
+              <p className="mt-8 text-sm text-white/50 print-text-muted">
                 Deze analyse is gebaseerd op jouw antwoorden en geen standaard
                 rapport.
               </p>
 
-              <div className="mt-4 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-                <p className="text-sm font-medium text-[#EB7F4B]">
+              <div className="mt-4 rounded-3xl border border-[#EB7F4B]/20 bg-[#EB7F4B]/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)] print-card">
+                <p className="text-sm font-medium text-[#EB7F4B] print-accent">
                   Dit is waar je nu structureel winst laat liggen
                 </p>
 
-                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
+                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.02em] print-text-dark">
                   {priorityTitle}
                 </h2>
 
-                <p className="mt-4 leading-7 text-white/75">{summary}</p>
+                <p className="mt-4 leading-7 text-white/75 print-text-dark">
+                  {summary}
+                </p>
 
-                <p className="mt-4 leading-7 text-white/65">
+                <p className="mt-4 leading-7 text-white/65 print-text-muted">
                   Daardoor laat je nu waarschijnlijk structureel nieuwe leden
                   liggen, zonder dat je dat elke dag direct doorhebt.
                 </p>
 
-                <p className="mt-4 leading-7 text-white/65">
+                <p className="mt-4 leading-7 text-white/65 print-text-muted">
                   Dit is precies waarom groei nu minder voorspelbaar voelt dan
                   nodig is.
                 </p>
               </div>
 
-              <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6">
-                <h2 className="text-2xl font-semibold">
+              <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 print-card">
+                <h2 className="text-2xl font-semibold print-text-dark">
                   Dit ga je de komende 30 dagen doen
                 </h2>
 
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 print-text-muted">
                   Niet alles tegelijk. Dit zijn de eerste stappen die het meeste
                   verschil maken.
                 </p>
@@ -397,38 +488,49 @@ const ResultScreen = ({
                   {actions.map((action: any, index: number) => (
                     <div
                       key={index}
-                      className="rounded-2xl border border-white/8 bg-white/[0.02] p-5"
+                      className="rounded-2xl border border-white/8 bg-white/[0.02] p-5 print-soft-card"
                     >
-                      <h3 className="text-lg font-semibold">
+                      <h3 className="text-lg font-semibold print-text-dark">
                         {index + 1}. {action.title}
                       </h3>
 
-                      <p className="mt-3 text-sm leading-6 text-white/70">
-                        <strong>Dit ga je concreet doen:</strong> {action.what}
+                      <p className="mt-3 text-sm leading-6 text-white/70 print-text-muted">
+                        <strong className="print-text-dark">
+                          Dit ga je concreet doen:
+                        </strong>{" "}
+                        {action.what}
                       </p>
 
-                      <p className="mt-3 text-sm leading-6 text-white/60">
-                        <strong>Waarom dit belangrijk is:</strong> {action.why}
+                      <p className="mt-3 text-sm leading-6 text-white/60 print-text-muted">
+                        <strong className="print-text-dark">
+                          Waarom dit belangrijk is:
+                        </strong>{" "}
+                        {action.why}
                       </p>
 
-                      <p className="mt-3 text-sm leading-6 text-white/60">
-                        <strong>Wat dit oplevert:</strong> {action.result}
+                      <p className="mt-3 text-sm leading-6 text-white/60 print-text-muted">
+                        <strong className="print-text-dark">
+                          Wat dit oplevert:
+                        </strong>{" "}
+                        {action.result}
                       </p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="mt-8 rounded-3xl border border-red-500/20 bg-red-500/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-                <h3 className="text-lg font-semibold text-red-400">
+              <div className="mt-8 rounded-3xl border border-red-500/20 bg-red-500/5 p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)] print-card">
+                <h3 className="text-lg font-semibold text-red-400 print-text-dark">
                   Wat je nu beter niet kunt doen
                 </h3>
 
-                <p className="mt-3 leading-7 text-white/70">{avoid}</p>
+                <p className="mt-3 leading-7 text-white/70 print-text-muted">
+                  {avoid}
+                </p>
               </div>
 
-              <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)]">
-                <h3 className="text-xl font-semibold">
+              <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-6 shadow-[0_10px_50px_rgba(0,0,0,0.20)] print-card">
+                <h3 className="text-xl font-semibold print-text-dark">
                   Bekijk je scores per onderdeel
                 </h3>
 
@@ -442,8 +544,8 @@ const ResultScreen = ({
                           <span
                             className={
                               isLowest
-                                ? "font-medium text-[#EB7F4B]"
-                                : "text-white/80"
+                                ? "font-medium text-[#EB7F4B] print-accent"
+                                : "text-white/80 print-text-dark"
                             }
                           >
                             {domain}
@@ -451,18 +553,20 @@ const ResultScreen = ({
                           <span
                             className={
                               isLowest
-                                ? "font-medium text-[#EB7F4B]"
-                                : "text-white/55"
+                                ? "font-medium text-[#EB7F4B] print-accent"
+                                : "text-white/55 print-text-muted"
                             }
                           >
                             {score}/5
                           </span>
                         </div>
 
-                        <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-white/10 print-bar-bg">
                           <div
                             className={`h-full rounded-full ${
-                              isLowest ? "bg-[#EB7F4B]" : "bg-white/35"
+                              isLowest
+                                ? "bg-[#EB7F4B] print-bar-fill"
+                                : "bg-white/35 print-bar-fill"
                             }`}
                             style={{ width: `${(Number(score) / 5) * 100}%` }}
                           />
@@ -472,16 +576,16 @@ const ResultScreen = ({
                   })}
                 </div>
 
-                <p className="mt-5 text-sm leading-6 text-white/55">
+                <p className="mt-5 text-sm leading-6 text-white/55 print-text-muted">
                   Je laagste score ligt bij{" "}
-                  <span className="font-medium text-white">
+                  <span className="font-medium text-white print-text-dark">
                     {lowestDomain}
                   </span>
                   . Daar zit op dit moment je grootste aandachtspunt.
                 </p>
               </div>
 
-              <div className="mt-12 rounded-3xl border border-white/8 bg-white/[0.03] p-6 text-center shadow-[0_10px_50px_rgba(0,0,0,0.25)]">
+              <div className="mt-12 rounded-3xl border border-white/8 bg-white/[0.03] p-6 text-center shadow-[0_10px_50px_rgba(0,0,0,0.25)] print-card no-print">
                 <h3 className="text-2xl font-semibold">
                   Klaar om dit ook echt aan te pakken?
                 </h3>
@@ -534,10 +638,20 @@ const ResultScreen = ({
                   oplost.
                 </p>
               </div>
+
+              <div className="mt-6 text-center no-print">
+                <button
+                  type="button"
+                  onClick={handlePrint}
+                  className="inline-flex h-12 items-center justify-center rounded-2xl border border-white/8 bg-white/[0.03] px-5 text-sm font-medium text-white/70 transition hover:bg-white/[0.05] hover:text-white"
+                >
+                  Download als PDF
+                </button>
+              </div>
             </>
           )}
 
-          <div className="text-center">
+          <div className="text-center no-print">
             <button
               type="button"
               onClick={onRestart}
