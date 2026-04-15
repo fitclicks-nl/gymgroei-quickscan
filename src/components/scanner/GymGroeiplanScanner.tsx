@@ -22,6 +22,7 @@ const GymGroeiplanScanner = () => {
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<any>(null);
 
+  // 🔧 Centrale opslag functie
   const persistState = useCallback(
     (next?: {
       gymName?: string;
@@ -41,6 +42,7 @@ const GymGroeiplanScanner = () => {
     [gymName, email, answers, result]
   );
 
+  // 🔄 State herstellen bij refresh / terugkomst van betaling
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const isPaymentReturn = params.get("payment") === "return";
@@ -56,11 +58,12 @@ const GymGroeiplanScanner = () => {
       if (Array.isArray(saved?.answers)) setAnswers(saved.answers);
       if (saved?.result) setResult(saved.result);
 
+      // 👉 Als iemand terugkomt van betaling → direct naar resultaat
       if (isPaymentReturn && saved?.result) {
         setPhase("result");
       }
     } catch {
-      // ignore broken storage
+      // broken storage negeren
     }
   }, []);
 
@@ -85,25 +88,23 @@ const GymGroeiplanScanner = () => {
     newAnswers[questionIndex] = value;
     setAnswers(newAnswers);
 
+    // 👉 Nog niet klaar → volgende vraag
     if (questionIndex < quickscanQuestions.length - 1) {
       setQuestionIndex((prev) => prev + 1);
-      persistState({ answers: newAnswers });
+
+      persistState({
+        answers: newAnswers,
+      });
+
       return;
     }
 
- const generated = generateQuickscanResult(newAnswers);
+    // 👉 Laatste vraag → resultaat genereren
+    const generated = generateQuickscanResult(newAnswers);
 
-// opslaan
-localStorage.setItem(
-  "quickscan_result",
-  JSON.stringify(generated)
-);
+    setResult(generated);
+    setPhase("loading");
 
-localStorage.setItem("quickscan_gym", gymName);
-localStorage.setItem("quickscan_email", email);
-
-setResult(generated);
-setPhase("loading");
     persistState({
       answers: newAnswers,
       result: generated,
@@ -122,6 +123,7 @@ setPhase("loading");
   return (
     <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,hsl(232_40%_10%),hsl(230_35%_8%))]">
       <div className="relative z-10">
+        {/* Logo */}
         <div className="absolute inset-x-0 top-0 z-30">
           <div className="mx-auto flex max-w-7xl items-center px-8 pt-6 sm:px-12 sm:pt-8 md:px-16 md:pt-10">
             <a
