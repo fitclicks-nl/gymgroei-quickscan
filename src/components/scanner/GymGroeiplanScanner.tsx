@@ -22,31 +22,30 @@ const GymGroeiplanScanner = () => {
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<any>(null);
 
-  // 🔧 Centrale opslag functie
   const persistState = useCallback(
     (next?: {
       gymName?: string;
       email?: string;
       answers?: number[];
       result?: any;
+      questionIndex?: number;
+      phase?: Phase;
     }) => {
       const payload = {
         gymName: next?.gymName ?? gymName,
         email: next?.email ?? email,
         answers: next?.answers ?? answers,
         result: next?.result ?? result,
+        questionIndex: next?.questionIndex ?? questionIndex,
+        phase: next?.phase ?? phase,
       };
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     },
-    [gymName, email, answers, result]
+    [gymName, email, answers, result, questionIndex, phase]
   );
 
-  // 🔄 State herstellen bij refresh / terugkomst van betaling
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const isPaymentReturn = params.get("payment") === "return";
-
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
 
@@ -56,14 +55,28 @@ const GymGroeiplanScanner = () => {
       if (saved?.gymName) setGymName(saved.gymName);
       if (saved?.email) setEmail(saved.email);
       if (Array.isArray(saved?.answers)) setAnswers(saved.answers);
+      if (typeof saved?.questionIndex === "number") {
+        setQuestionIndex(saved.questionIndex);
+      }
       if (saved?.result) setResult(saved.result);
 
-      // 👉 Als iemand terugkomt van betaling → direct naar resultaat
-      if (isPaymentReturn && saved?.result) {
+      if (saved?.result) {
         setPhase("result");
+        return;
       }
+
+      if (
+        saved?.gymName ||
+        saved?.email ||
+        (Array.isArray(saved?.answers) && saved.answers.length > 0)
+      ) {
+        setPhase("questions");
+        return;
+      }
+
+      setPhase("start");
     } catch {
-      // broken storage negeren
+      // ignore broken storage
     }
   }, []);
 
@@ -80,6 +93,8 @@ const GymGroeiplanScanner = () => {
       email: mail,
       answers: [],
       result: null,
+      questionIndex: 0,
+      phase: "questions",
     });
   };
 
@@ -88,18 +103,19 @@ const GymGroeiplanScanner = () => {
     newAnswers[questionIndex] = value;
     setAnswers(newAnswers);
 
-    // 👉 Nog niet klaar → volgende vraag
     if (questionIndex < quickscanQuestions.length - 1) {
-      setQuestionIndex((prev) => prev + 1);
+      const nextIndex = questionIndex + 1;
+      setQuestionIndex(nextIndex);
 
       persistState({
         answers: newAnswers,
+        questionIndex: nextIndex,
+        phase: "questions",
       });
 
       return;
     }
 
-    // 👉 Laatste vraag → resultaat genereren
     const generated = generateQuickscanResult(newAnswers);
 
     setResult(generated);
@@ -108,22 +124,34 @@ const GymGroeiplanScanner = () => {
     persistState({
       answers: newAnswers,
       result: generated,
+      questionIndex,
+      phase: "loading",
     });
   };
 
   const handleBack = () => {
     if (questionIndex === 0) return;
-    setQuestionIndex((prev) => prev - 1);
+
+    const prevIndex = questionIndex - 1;
+    setQuestionIndex(prevIndex);
+
+    persistState({
+      questionIndex: prevIndex,
+      phase: "questions",
+    });
   };
 
   const handleLoadingDone = useCallback(() => {
     setPhase("result");
-  }, []);
+
+    persistState({
+      phase: "result",
+    });
+  }, [persistState]);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,hsl(232_40%_10%),hsl(230_35%_8%))]">
       <div className="relative z-10">
-        {/* Logo */}
         <div className="absolute inset-x-0 top-0 z-30">
           <div className="mx-auto flex max-w-7xl items-center px-8 pt-6 sm:px-12 sm:pt-8 md:px-16 md:pt-10">
             <a
