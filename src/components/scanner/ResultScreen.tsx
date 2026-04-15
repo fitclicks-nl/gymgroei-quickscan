@@ -438,8 +438,8 @@ const ResultScreen = ({ gymName, email, result, onRestart }: ResultScreenProps) 
   <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/65">
     Je weet nu dat{" "}
     <span className="font-medium text-white">{lowestDomain}</span> je grootste
-    groeikans is. Maar inzicht alleen verandert niets — de volgende stap is
-    zorgen dat dit ook echt wordt opgelost in je marketing en opvolging.
+    groeikans is. Maar inzicht alleen verandert niets. De volgende stap is zorgen
+dat dit ook echt wordt opgelost in je marketing en opvolging.
   </p>
 
   <button
