@@ -91,10 +91,19 @@ const GymGroeiplanScanner = () => {
       return;
     }
 
-    const generated = generateQuickscanResult(newAnswers);
-    setResult(generated);
-    setPhase("loading");
+ const generated = generateQuickscanResult(newAnswers);
 
+// opslaan
+localStorage.setItem(
+  "quickscan_result",
+  JSON.stringify(generated)
+);
+
+localStorage.setItem("quickscan_gym", gymName);
+localStorage.setItem("quickscan_email", email);
+
+setResult(generated);
+setPhase("loading");
     persistState({
       answers: newAnswers,
       result: generated,
