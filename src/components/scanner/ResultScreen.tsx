@@ -149,102 +149,123 @@ const ResultScreen = ({
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
-      <style>
-        {`
-          @keyframes fitclicksSubtlePulse {
-            0% {
-              transform: scale(0.985);
-              opacity: 0.32;
-              box-shadow: 0 0 0 rgba(235,127,75,0);
-            }
-            50% {
-              transform: scale(1.015);
-              opacity: 0.62;
-              box-shadow: 0 0 24px rgba(235,127,75,0.22);
-            }
-            100% {
-              transform: scale(0.985);
-              opacity: 0.32;
-              box-shadow: 0 0 0 rgba(235,127,75,0);
-            }
-          }
+     <style>
+  {`
+    @keyframes fitclicksSubtlePulse {
+      0% {
+        transform: scale(0.985);
+        opacity: 0.32;
+        box-shadow: 0 0 0 rgba(235,127,75,0);
+      }
+      50% {
+        transform: scale(1.015);
+        opacity: 0.62;
+        box-shadow: 0 0 24px rgba(235,127,75,0.22);
+      }
+      100% {
+        transform: scale(0.985);
+        opacity: 0.32;
+        box-shadow: 0 0 0 rgba(235,127,75,0);
+      }
+    }
 
-          @keyframes progressBar {
-            from { width: 0% }
-            to { width: 100% }
-          }
+    @keyframes progressBar {
+      from { width: 0% }
+      to { width: 100% }
+    }
 
-          @media print {
-            html, body {
-              background: #ffffff !important;
-              color: #111111 !important;
-              -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
-            }
+    @media print {
+      @page {
+        size: A4;
+        margin: 16mm;
+      }
 
-            body * {
-              visibility: hidden;
-            }
+      html,
+      body {
+        background: #ffffff !important;
+        color: #111111 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        overflow: visible !important;
+      }
 
-            .print-area,
-            .print-area * {
-              visibility: visible;
-            }
+      body * {
+        visibility: hidden;
+      }
 
-            .print-area {
-              position: absolute;
-              left: 0;
-              top: 0;
-              width: 100%;
-              max-width: 100%;
-              padding: 0;
-              margin: 0;
-            }
+      .print-area,
+      .print-area * {
+        visibility: visible;
+      }
 
-            .no-print {
-              display: none !important;
-            }
+      .print-area {
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+      }
 
-            .print-card {
-              background: #ffffff !important;
-              border: 1px solid #e5e7eb !important;
-              box-shadow: none !important;
-              color: #111111 !important;
-              break-inside: avoid;
-              page-break-inside: avoid;
-            }
+      .no-print {
+        display: none !important;
+      }
 
-            .print-soft-card {
-              background: #fafafa !important;
-              border: 1px solid #e5e7eb !important;
-              box-shadow: none !important;
-              color: #111111 !important;
-              break-inside: avoid;
-              page-break-inside: avoid;
-            }
+      .print-card,
+      .print-soft-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        overflow: visible !important;
+      }
 
-            .print-text-dark {
-              color: #111111 !important;
-            }
+      .print-card {
+        background: #ffffff !important;
+        border: 1px solid #e5e7eb !important;
+        box-shadow: none !important;
+        color: #111111 !important;
+      }
 
-            .print-text-muted {
-              color: #4b5563 !important;
-            }
+      .print-soft-card {
+        background: #fafafa !important;
+        border: 1px solid #e5e7eb !important;
+        box-shadow: none !important;
+        color: #111111 !important;
+      }
 
-            .print-accent {
-              color: #c65f2e !important;
-            }
+      .print-text-dark {
+        color: #111111 !important;
+      }
 
-            .print-bar-bg {
-              background: #e5e7eb !important;
-            }
+      .print-text-muted {
+        color: #4b5563 !important;
+      }
 
-            .print-bar-fill {
-              background: #c65f2e !important;
-            }
-          }
-        `}
-      </style>
+      .print-accent {
+        color: #c65f2e !important;
+      }
+
+      .print-bar-bg {
+        background: #e5e7eb !important;
+      }
+
+      .print-bar-fill {
+        background: #c65f2e !important;
+      }
+
+      /* belangrijke extra fixes */
+      h1, h2, h3, p, div {
+        overflow: visible !important;
+      }
+
+      .space-y-5 > *,
+      .space-y-4 > *,
+      .space-y-3 > * {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  `}
+</style>
 
       {paymentStatus === "success" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(10,12,25,0.78)] backdrop-blur-xl no-print">
