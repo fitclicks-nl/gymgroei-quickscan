@@ -149,6 +149,17 @@ const GymGroeiplanScanner = () => {
     });
   }, [persistState]);
 
+  const handleRestart = useCallback(() => {
+  localStorage.removeItem(STORAGE_KEY);
+
+  setPhase("start");
+  setGymName("");
+  setEmail("");
+  setQuestionIndex(0);
+  setAnswers([]);
+  setResult(null);
+}, []);
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,hsl(232_40%_10%),hsl(230_35%_8%))]">
       <div className="relative z-10">
