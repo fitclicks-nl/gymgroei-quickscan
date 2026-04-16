@@ -12,21 +12,36 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    const raw = localStorage.getItem("fitclicks_scanner_prefill");
-    if (!raw) return;
+    const params = new URLSearchParams(window.location.search);
+    const gymNameFromUrl = params.get("gymName");
+    const emailFromUrl = params.get("email");
 
-    try {
-      const saved = JSON.parse(raw);
+    if (gymNameFromUrl) {
+      setGymName(gymNameFromUrl);
+    }
 
-      if (saved?.gymName) {
-        setGymName(saved.gymName);
+    if (emailFromUrl) {
+      setEmail(emailFromUrl);
+    }
+
+    // fallback als er geen URL-parameters zijn
+    if (!gymNameFromUrl && !emailFromUrl) {
+      const raw = localStorage.getItem("fitclicks_scanner_prefill");
+      if (!raw) return;
+
+      try {
+        const saved = JSON.parse(raw);
+
+        if (saved?.gymName) {
+          setGymName(saved.gymName);
+        }
+
+        if (saved?.email) {
+          setEmail(saved.email);
+        }
+      } catch {
+        // ignore broken storage
       }
-
-      if (saved?.email) {
-        setEmail(saved.email);
-      }
-    } catch {
-      // ignore broken storage
     }
   }, []);
 
