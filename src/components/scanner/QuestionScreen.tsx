@@ -183,12 +183,12 @@ const QuestionScreen = ({
 
   <div className="flex items-center gap-3">
     {selectedValue !== null && (
-      <div className="hidden xl:flex items-center gap-2 text-xs text-white/40">
-        <span className="inline-flex h-7 min-w-[2rem] items-center justify-center rounded-md border border-white/10 bg-white/[0.03] px-2 text-[11px] font-medium text-white/55">
-          Enter
-        </span>
-        <span>om verder te gaan</span>
-      </div>
+     <div className="hidden xl:flex items-center gap-2 text-xs text-white/40">
+  <span className="inline-flex h-7 min-w-[2rem] items-center justify-center rounded-md border border-white/10 bg-white/[0.03] px-2 text-[11px] font-medium text-white/55">
+    Enter
+  </span>
+  <span>druk op Enter</span>
+</div>
     )}
 
     <button
