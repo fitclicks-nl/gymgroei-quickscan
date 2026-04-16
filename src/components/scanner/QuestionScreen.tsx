@@ -36,6 +36,26 @@ const QuestionScreen = ({
     }
   }, [value, questionIndex]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Enter") return;
+
+      const isDesktop = window.matchMedia("(min-width: 1280px)").matches;
+      if (!isDesktop) return;
+
+      if (selectedValue === null) return;
+
+      e.preventDefault();
+      handleNext();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedValue, questionIndex, options]);
+
   const handleNext = () => {
     if (selectedValue === null) return;
 
@@ -72,10 +92,9 @@ const QuestionScreen = ({
     <div className="relative min-h-screen overflow-hidden text-white">
       <div className="mx-auto flex min-h-screen max-w-5xl items-start justify-center px-4 pb-6 pt-16 sm:px-6 sm:pb-8 sm:pt-20">
         <div className="w-full max-w-3xl">
-          {/* Desktop progress */}
           <div className="mb-4 hidden xl:block">
-  <ProgressBlock />
-</div>
+            <ProgressBlock />
+          </div>
 
           <div className="rounded-[2rem] border border-white/8 bg-white/[0.03] px-4 py-5 shadow-[0_10px_50px_rgba(0,0,0,0.22)] backdrop-blur-md sm:px-6 sm:py-6 lg:px-7">
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EB7F4B] sm:mb-4 sm:text-xs">
@@ -97,7 +116,6 @@ const QuestionScreen = ({
               </p>
             </div>
 
-            {/* Answers */}
             <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4">
               {options.map((option) => {
                 const isSelected = selectedValue === option.value;
@@ -139,19 +157,22 @@ const QuestionScreen = ({
               })}
             </div>
 
-            {/* Micro feedback */}
             {selectedValue !== null && (
-              <p className="mt-3 text-sm text-[#EB7F4B]">
-                Antwoord geselecteerd. Ga door wanneer je klaar bent.
-              </p>
+              <>
+                <p className="mt-3 text-sm text-[#EB7F4B]">
+                  Antwoord geselecteerd. Ga door wanneer je klaar bent.
+                </p>
+
+                <p className="mt-2 hidden text-center text-xs text-white/40 xl:block">
+                  Druk op Enter om verder te gaan
+                </p>
+              </>
             )}
 
-            {/* Mobile progress */}
             <div className="mt-5 xl:hidden">
-  <ProgressBlock />
-</div>
+              <ProgressBlock />
+            </div>
 
-            {/* Navigation */}
             <div className="mt-5 flex items-center justify-between gap-3 sm:mt-6">
               <button
                 type="button"
