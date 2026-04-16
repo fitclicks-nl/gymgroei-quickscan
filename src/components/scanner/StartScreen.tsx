@@ -152,6 +152,12 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
                   </p>
                 )}
               </div>
+              
+              {(gymName || email) && (
+  <p className="mt-2 text-xs text-white/40 text-center">
+    We hebben je gegevens alvast ingevuld op basis van je vorige stap. Controleer ze even voordat je verdergaat.
+  </p>
+)}
 
               <button
                 type="submit"
