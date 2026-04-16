@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { trackEvent } from "@/lib/utils";
 
 type ResultScreenProps = {
   gymName: string;
@@ -52,6 +53,14 @@ const ResultScreen = ({
     if (!storedPaymentId) {
       setPaymentStatus("failed");
       setPaymentError("Betaling niet voltooid of geannuleerd.");
+
+      trackEvent("quickscan_payment_failed", {
+        gym_name: gymName,
+        email,
+        lowest_domain: lowestDomain,
+        reason: "missing_payment_id",
+      });
+
       return;
     }
 
@@ -72,6 +81,13 @@ const ResultScreen = ({
         if (data.paid) {
           setIsUnlocked(true);
           setPaymentStatus("success");
+
+          trackEvent("quickscan_payment_success", {
+            gym_name: gymName,
+            email,
+            lowest_domain: lowestDomain,
+          });
+
           localStorage.removeItem(PAYMENT_STORAGE_KEY);
 
           const raw = localStorage.getItem(STORAGE_KEY);
@@ -99,22 +115,42 @@ const ResultScreen = ({
         } else {
           setPaymentStatus("failed");
           setPaymentError("Betaling niet voltooid of geannuleerd.");
+
+          trackEvent("quickscan_payment_failed", {
+            gym_name: gymName,
+            email,
+            lowest_domain: lowestDomain,
+            reason: "payment_not_paid",
+          });
         }
       } catch {
         setPaymentStatus("failed");
         setPaymentError("Er ging iets mis bij het controleren van de betaling.");
+
+        trackEvent("quickscan_payment_failed", {
+          gym_name: gymName,
+          email,
+          lowest_domain: lowestDomain,
+          reason: "payment_check_error",
+        });
       } finally {
         setIsCheckingPayment(false);
       }
     };
 
     checkPayment();
-  }, []);
+  }, [gymName, email, lowestDomain]);
 
   const handleStartPayment = async () => {
     try {
       setIsStartingPayment(true);
       setPaymentError("");
+
+      trackEvent("quickscan_payment_click", {
+        gym_name: gymName,
+        email,
+        lowest_domain: lowestDomain,
+      });
 
       const res = await fetch(`${WORKER_BASE_URL}/create-payment`, {
         method: "POST",
@@ -139,133 +175,146 @@ const ResultScreen = ({
       setPaymentError(
         error?.message || "Er ging iets mis bij het starten van de betaling."
       );
+
+      trackEvent("quickscan_payment_failed", {
+        gym_name: gymName,
+        email,
+        lowest_domain: lowestDomain,
+        reason: "payment_create_error",
+      });
+
       setIsStartingPayment(false);
     }
   };
 
   const handlePrint = () => {
+    trackEvent("quickscan_pdf_download", {
+      gym_name: gymName,
+      email,
+      lowest_domain: lowestDomain,
+    });
+
     window.print();
   };
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
-     <style>
-  {`
-    @keyframes fitclicksSubtlePulse {
-      0% {
-        transform: scale(0.985);
-        opacity: 0.32;
-        box-shadow: 0 0 0 rgba(235,127,75,0);
-      }
-      50% {
-        transform: scale(1.015);
-        opacity: 0.62;
-        box-shadow: 0 0 24px rgba(235,127,75,0.22);
-      }
-      100% {
-        transform: scale(0.985);
-        opacity: 0.32;
-        box-shadow: 0 0 0 rgba(235,127,75,0);
-      }
-    }
+      <style>
+        {`
+          @keyframes fitclicksSubtlePulse {
+            0% {
+              transform: scale(0.985);
+              opacity: 0.32;
+              box-shadow: 0 0 0 rgba(235,127,75,0);
+            }
+            50% {
+              transform: scale(1.015);
+              opacity: 0.62;
+              box-shadow: 0 0 24px rgba(235,127,75,0.22);
+            }
+            100% {
+              transform: scale(0.985);
+              opacity: 0.32;
+              box-shadow: 0 0 0 rgba(235,127,75,0);
+            }
+          }
 
-    @keyframes progressBar {
-      from { width: 0% }
-      to { width: 100% }
-    }
+          @keyframes progressBar {
+            from { width: 0% }
+            to { width: 100% }
+          }
 
-    @media print {
-      @page {
-        size: A4;
-        margin: 16mm;
-      }
+          @media print {
+            @page {
+              size: A4;
+              margin: 16mm;
+            }
 
-      html,
-      body {
-        background: #ffffff !important;
-        color: #111111 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-        overflow: visible !important;
-      }
+            html,
+            body {
+              background: #ffffff !important;
+              color: #111111 !important;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+              overflow: visible !important;
+            }
 
-      body * {
-        visibility: hidden;
-      }
+            body * {
+              visibility: hidden;
+            }
 
-      .print-area,
-      .print-area * {
-        visibility: visible;
-      }
+            .print-area,
+            .print-area * {
+              visibility: visible;
+            }
 
-      .print-area {
-        position: static !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: visible !important;
-      }
+            .print-area {
+              position: static !important;
+              width: 100% !important;
+              max-width: 100% !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              overflow: visible !important;
+            }
 
-      .no-print {
-        display: none !important;
-      }
+            .no-print {
+              display: none !important;
+            }
 
-      .print-card,
-      .print-soft-card {
-        break-inside: avoid;
-        page-break-inside: avoid;
-        overflow: visible !important;
-      }
+            .print-card,
+            .print-soft-card {
+              break-inside: avoid;
+              page-break-inside: avoid;
+              overflow: visible !important;
+            }
 
-      .print-card {
-        background: #ffffff !important;
-        border: 1px solid #e5e7eb !important;
-        box-shadow: none !important;
-        color: #111111 !important;
-      }
+            .print-card {
+              background: #ffffff !important;
+              border: 1px solid #e5e7eb !important;
+              box-shadow: none !important;
+              color: #111111 !important;
+            }
 
-      .print-soft-card {
-        background: #fafafa !important;
-        border: 1px solid #e5e7eb !important;
-        box-shadow: none !important;
-        color: #111111 !important;
-      }
+            .print-soft-card {
+              background: #fafafa !important;
+              border: 1px solid #e5e7eb !important;
+              box-shadow: none !important;
+              color: #111111 !important;
+            }
 
-      .print-text-dark {
-        color: #111111 !important;
-      }
+            .print-text-dark {
+              color: #111111 !important;
+            }
 
-      .print-text-muted {
-        color: #4b5563 !important;
-      }
+            .print-text-muted {
+              color: #4b5563 !important;
+            }
 
-      .print-accent {
-        color: #c65f2e !important;
-      }
+            .print-accent {
+              color: #c65f2e !important;
+            }
 
-      .print-bar-bg {
-        background: #e5e7eb !important;
-      }
+            .print-bar-bg {
+              background: #e5e7eb !important;
+            }
 
-      .print-bar-fill {
-        background: #c65f2e !important;
-      }
+            .print-bar-fill {
+              background: #c65f2e !important;
+            }
 
-      /* belangrijke extra fixes */
-      h1, h2, h3, p, div {
-        overflow: visible !important;
-      }
+            h1, h2, h3, p, div {
+              overflow: visible !important;
+            }
 
-      .space-y-5 > *,
-      .space-y-4 > *,
-      .space-y-3 > * {
-        break-inside: avoid;
-        page-break-inside: avoid;
-      }
-    }
-  `}
-</style>
+            .space-y-5 > *,
+            .space-y-4 > *,
+            .space-y-3 > * {
+              break-inside: avoid;
+              page-break-inside: avoid;
+            }
+          }
+        `}
+      </style>
 
       {paymentStatus === "success" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(10,12,25,0.78)] backdrop-blur-xl no-print">
