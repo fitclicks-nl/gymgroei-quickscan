@@ -162,10 +162,6 @@ const QuestionScreen = ({
                 <p className="mt-3 text-sm text-[#EB7F4B]">
                   Antwoord geselecteerd. Ga door wanneer je klaar bent.
                 </p>
-
-                <p className="mt-2 hidden text-center text-xs text-white/40 xl:block">
-                  Druk op Enter om verder te gaan
-                </p>
               </>
             )}
 
@@ -174,34 +170,45 @@ const QuestionScreen = ({
             </div>
 
             <div className="mt-5 flex items-center justify-between gap-3 sm:mt-6">
-              <button
-                type="button"
-                onClick={onBack}
-                disabled={questionIndex === 0}
-                className={`inline-flex h-11 items-center justify-center rounded-[1rem] px-4 text-[0.95rem] font-medium transition sm:h-12 sm:px-6 sm:text-base ${
-                  questionIndex === 0
-                    ? "cursor-not-allowed border border-white/6 bg-white/[0.02] text-white/25"
-                    : "border border-white/8 bg-white/[0.03] text-white/55 hover:bg-white/[0.05] hover:text-white/80"
-                }`}
-              >
-                Vorige
-              </button>
+  <button
+    type="button"
+    onClick={onBack}
+    disabled={questionIndex === 0}
+    className={`inline-flex h-11 items-center justify-center rounded-[1rem] px-4 text-[0.95rem] font-medium transition sm:h-12 sm:px-6 sm:text-base ${
+      questionIndex === 0
+        ? "cursor-not-allowed border border-white/6 bg-white/[0.02] text-white/25"
+        : "border border-white/8 bg-white/[0.03] text-white/55 hover:bg-white/[0.05] hover:text-white/80"
+    }`}
+  >
+    Vorige
+  </button>
 
-              <button
-                type="button"
-                disabled={selectedValue === null}
-                onClick={handleNext}
-                className={`inline-flex h-11 items-center justify-center rounded-[1rem] px-5 text-[0.95rem] font-medium transition sm:h-12 sm:px-6 sm:text-base ${
-                  selectedValue === null
-                    ? "cursor-not-allowed border border-white/6 bg-white/[0.02] text-white/25"
-                    : "border border-[#EB7F4B]/40 bg-[#EB7F4B] text-white shadow-[0_8px_25px_rgba(235,127,75,0.25)] hover:brightness-105"
-                }`}
-              >
-                {questionIndex === totalQuestions - 1
-                  ? "Bekijk resultaat"
-                  : "Volgende vraag"}
-              </button>
-            </div>
+  <div className="flex items-center gap-3">
+    {selectedValue !== null && (
+      <div className="hidden xl:flex items-center gap-2 text-xs text-white/40">
+        <span className="inline-flex h-7 min-w-[2rem] items-center justify-center rounded-md border border-white/10 bg-white/[0.03] px-2 text-[11px] font-medium text-white/55">
+          Enter
+        </span>
+        <span>om verder te gaan</span>
+      </div>
+    )}
+
+    <button
+      type="button"
+      disabled={selectedValue === null}
+      onClick={handleNext}
+      className={`inline-flex h-11 items-center justify-center rounded-[1rem] px-5 text-[0.95rem] font-medium transition sm:h-12 sm:px-6 sm:text-base ${
+        selectedValue === null
+          ? "cursor-not-allowed border border-white/6 bg-white/[0.02] text-white/25"
+          : "border border-[#EB7F4B]/40 bg-[#EB7F4B] text-white shadow-[0_8px_25px_rgba(235,127,75,0.25)] hover:brightness-105"
+      }`}
+    >
+      {questionIndex === totalQuestions - 1
+        ? "Bekijk resultaat"
+        : "Volgende vraag"}
+    </button>
+  </div>
+</div>
           </div>
         </div>
       </div>
