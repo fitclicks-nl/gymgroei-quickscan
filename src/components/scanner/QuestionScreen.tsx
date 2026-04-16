@@ -158,12 +158,10 @@ const QuestionScreen = ({
             </div>
 
             {selectedValue !== null && (
-              <>
-                <p className="mt-3 text-sm text-[#EB7F4B]">
-                  Antwoord geselecteerd. Ga door wanneer je klaar bent.
-                </p>
-              </>
-            )}
+  <p className="mt-3 text-sm text-[#EB7F4B] xl:hidden">
+    Antwoord geselecteerd. Ga door wanneer je klaar bent.
+  </p>
+)}
 
             <div className="mt-5 xl:hidden">
               <ProgressBlock />
