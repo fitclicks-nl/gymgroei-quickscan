@@ -54,26 +54,41 @@ const CookieBanner = ({ privacyHref = "/privacy" }: CookieBannerProps) => {
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
-    setVisible(!hasCookieConsent());
+  let timer: ReturnType<typeof window.setTimeout> | undefined;
 
-    const handleOpen = () => {
-      const existing = getCookieConsent();
-      if (existing) {
-        setAnalytics(existing.analytics);
-        setMarketing(existing.marketing);
-      }
+  if (!hasCookieConsent()) {
+    timer = window.setTimeout(() => {
       setVisible(true);
-      setShowPreferences(true);
-      setIsClosing(false);
-      requestAnimationFrame(() => setMounted(true));
-    };
+    }, 2500);
+  }
 
-    window.addEventListener("fitclicks:open-cookie-settings", handleOpen);
+  const handleOpen = () => {
+    if (timer) {
+      window.clearTimeout(timer);
+    }
 
-    return () => {
-      window.removeEventListener("fitclicks:open-cookie-settings", handleOpen);
-    };
-  }, []);
+    const existing = getCookieConsent();
+    if (existing) {
+      setAnalytics(existing.analytics);
+      setMarketing(existing.marketing);
+    }
+
+    setVisible(true);
+    setShowPreferences(true);
+    setIsClosing(false);
+    requestAnimationFrame(() => setMounted(true));
+  };
+
+  window.addEventListener("fitclicks:open-cookie-settings", handleOpen);
+
+  return () => {
+    if (timer) {
+      window.clearTimeout(timer);
+    }
+
+    window.removeEventListener("fitclicks:open-cookie-settings", handleOpen);
+  };
+}, []);
 
   useEffect(() => {
     if (visible) {
